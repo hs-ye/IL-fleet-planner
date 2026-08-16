@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { ReferenceData, FleetPlan } from './types'
+import type { ReferenceData, FleetPlan, Template } from './types'
 import { Reference } from './reference'
 import {
   uid,
@@ -10,8 +10,10 @@ import {
   loadPlanFromStorage,
   deletePlanFromStorage,
 } from './serialize'
+import { loadCustomTemplates, saveCustomTemplates } from './templates'
 import Planner from './components/Planner'
 import DataView from './components/DataView'
+import TemplateEditor from './components/TemplateEditor'
 
 function newPlan(): FleetPlan {
   return {
@@ -27,12 +29,15 @@ function newPlan(): FleetPlan {
   }
 }
 
+type Tab = 'planner' | 'data' | 'templates'
+
 export default function App() {
   const [reference, setReference] = useState<Reference | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
-  const [tab, setTab] = useState<'planner' | 'data'>('planner')
+  const [tab, setTab] = useState<Tab>('planner')
   const [plan, setPlan] = useState<FleetPlan>(() => newPlan())
   const [saved, setSaved] = useState(() => listSavedPlans())
+  const [customTemplates, setCustomTemplates] = useState<Template[]>(() => loadCustomTemplates())
   const [shareOpen, setShareOpen] = useState(false)
   const [shareText, setShareText] = useState('')
 
@@ -45,6 +50,15 @@ export default function App() {
       .then((d: ReferenceData) => setReference(new Reference(d)))
       .catch((e) => setLoadError(String(e)))
   }, [])
+
+  useEffect(() => {
+    reference?.setCustomTemplates(customTemplates)
+  }, [reference, customTemplates])
+
+  const handleCustomTemplatesChange = (list: Template[]) => {
+    setCustomTemplates(list)
+    saveCustomTemplates(list)
+  }
 
   const refreshSaved = () => setSaved(listSavedPlans())
 
@@ -138,12 +152,17 @@ export default function App() {
       <div className="tabs">
         <button className={tab === 'planner' ? 'active' : ''} onClick={() => setTab('planner')}>Planner</button>
         <button className={tab === 'data' ? 'active' : ''} onClick={() => setTab('data')}>Reference Data</button>
+        <button className={tab === 'templates' ? 'active' : ''} onClick={() => setTab('templates')}>Templates</button>
       </div>
 
-      {tab === 'planner' ? (
-        <Planner reference={reference} plan={plan} setPlan={setPlan} />
-      ) : (
-        <DataView reference={reference} />
+      {tab === 'planner' && <Planner reference={reference} plan={plan} setPlan={setPlan} />}
+      {tab === 'data' && <DataView reference={reference} />}
+      {tab === 'templates' && (
+        <TemplateEditor
+          reference={reference}
+          customTemplates={customTemplates}
+          onCustomTemplatesChange={handleCustomTemplatesChange}
+        />
       )}
     </div>
   )

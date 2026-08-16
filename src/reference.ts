@@ -13,25 +13,67 @@ import type {
 export class Reference {
   ships: Ship[]
   modules: Module[]
-  templates: Template[]
+  templates!: Template[]
+  refTemplates: Template[]
+  customTemplates: Template[]
   shipByKey: Map<string, Ship>
-  templateByKey: Map<string, Template>
+  templateByKey!: Map<string, Template>
   moduleByName: Map<string, Module>
 
-  constructor(data: ReferenceData) {
+  constructor(data: ReferenceData, customTemplates: Template[] = []) {
     this.ships = data.ships
     this.modules = data.modules
-    this.templates = data.templates
+    this.refTemplates = data.templates
+    this.customTemplates = customTemplates
     this.shipByKey = new Map(data.ships.map((s) => [s.key, s]))
-    this.templateByKey = new Map(data.templates.map((t) => [t.key, t]))
     this.moduleByName = new Map(data.modules.map((m) => [m.name, m]))
+    this.rebuildTemplates()
+  }
+
+  rebuildTemplates(): void {
+    this.templates = [...this.refTemplates, ...this.customTemplates]
+    this.templateByKey = new Map(this.templates.map((t) => [t.key, t]))
+  }
+
+  setCustomTemplates(custom: Template[]): void {
+    this.customTemplates = custom
+    this.rebuildTemplates()
+  }
+
+  private static SLOT_ORDER = ['M', 'A', 'B', 'C', 'D', 'E', 'F']
+
+  slotsForShip(shipKey: string): string[] {
+    const slots = new Set(
+      this.modules
+        .filter((m) => m.shipKey === shipKey)
+        .map((m) => m.slot)
+        .filter((s): s is string => !!s),
+    )
+    return Reference.SLOT_ORDER.filter((s) => slots.has(s))
+  }
+
+  modulesForSlot(shipKey: string, slot: string): Module[] {
+    return this.modules.filter((m) => m.shipKey === shipKey && m.slot === slot)
+  }
+
+  templateableShips(): Ship[] {
+    const withModules = new Set(this.modules.map((m) => m.shipKey))
+    return this.ships.filter((s) => withModules.has(s.key))
   }
 
   unitList(): { key: string; label: string; kind: 'ship' | 'template' }[] {
-    return [
-      ...this.ships.map((s) => ({ key: s.key, label: s.name, kind: 'ship' as const })),
-      ...this.templates.map((t) => ({ key: t.key, label: t.name, kind: 'template' as const })),
-    ]
+    const nameCount = new Map<string, number>()
+    for (const s of this.ships) nameCount.set(s.name, (nameCount.get(s.name) ?? 0) + 1)
+    const ships = this.ships.map((s) => {
+      const dup = (nameCount.get(s.name) ?? 0) > 1
+      return {
+        key: s.key,
+        label: dup && s.variant ? `${s.name} [${s.variant}]` : s.name,
+        kind: 'ship' as const,
+      }
+    })
+    const templates = this.templates.map((t) => ({ key: t.key, label: t.name, kind: 'template' as const }))
+    return [...ships, ...templates]
   }
 
   lookupUnit(key: string): { kind: 'ship' | 'template'; ship?: Ship; template?: Template } | null {
