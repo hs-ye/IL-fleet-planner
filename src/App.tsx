@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import type { FleetPlan, Template } from './types'
+import { useEffect, useMemo, useState } from 'react'
+import type { ReferenceData, FleetPlan, Template } from './types'
 import { Reference, loadReferenceData } from './reference'
 import {
   uid,
@@ -32,7 +32,7 @@ function newPlan(): FleetPlan {
 type Tab = 'planner' | 'data' | 'templates'
 
 export default function App() {
-  const [reference, setReference] = useState<Reference | null>(null)
+  const [rawData, setRawData] = useState<ReferenceData | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [tab, setTab] = useState<Tab>('planner')
   const [plan, setPlan] = useState<FleetPlan>(() => newPlan())
@@ -41,15 +41,18 @@ export default function App() {
   const [shareOpen, setShareOpen] = useState(false)
   const [shareText, setShareText] = useState('')
 
-  useEffect(() => {
-    loadReferenceData()
-      .then((d) => setReference(new Reference(d)))
-      .catch((e) => setLoadError(String(e)))
-  }, [])
+  // Rebuild the Reference whenever custom templates change, so edits flow into
+  // the planner + validation immediately (stable identity, no stale renders).
+  const reference = useMemo(
+    () => (rawData ? new Reference(rawData, customTemplates) : null),
+    [rawData, customTemplates],
+  )
 
   useEffect(() => {
-    reference?.setCustomTemplates(customTemplates)
-  }, [reference, customTemplates])
+    loadReferenceData()
+      .then(setRawData)
+      .catch((e) => setLoadError(String(e)))
+  }, [])
 
   const handleCustomTemplatesChange = (list: Template[]) => {
     setCustomTemplates(list)

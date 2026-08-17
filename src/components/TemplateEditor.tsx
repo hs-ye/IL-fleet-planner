@@ -10,6 +10,7 @@ interface Props {
 }
 
 export default function TemplateEditor({ reference, customTemplates, onCustomTemplatesChange }: Props) {
+  const [editingKey, setEditingKey] = useState<string | null>(null)
   const [name, setName] = useState('')
   const [baseShipKey, setBaseShipKey] = useState('')
   const [slots, setSlots] = useState<Record<string, string>>({})
@@ -22,27 +23,38 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
   const fighterSlots = slotLetters.reduce((acc, s) => acc + (reference.moduleByName.get(slots[s] ?? '')?.fighterCapacity ?? 0), 0)
 
   const reset = () => {
+    setEditingKey(null)
     setName('')
     setBaseShipKey('')
     setSlots({})
   }
 
+  const startEdit = (t: Template) => {
+    setEditingKey(t.key)
+    setName(t.name)
+    setBaseShipKey(t.baseShipKey)
+    setSlots({ ...t.slots })
+  }
+
   const handleSave = () => {
     const trimmed = name.trim()
     if (!trimmed || !baseShipKey) return
-    if (reference.templates.some((t) => t.name.toLowerCase() === trimmed.toLowerCase())) {
+    if (reference.templates.some((t) => t.key !== editingKey && t.name.toLowerCase() === trimmed.toLowerCase())) {
       alert('A template with this name already exists.')
       return
     }
     const tpl: Template = {
-      key: uid(),
+      key: editingKey ?? uid(),
       name: trimmed,
       baseShipKey,
       slots: Object.fromEntries(Object.entries(slots).filter(([, v]) => v)),
       corvSlots,
       fighterSlots,
     }
-    onCustomTemplatesChange([...customTemplates, tpl])
+    // Keep the key stable when editing (so plans already using it stay linked);
+    // this also turns an edit to a reference template into a local override.
+    const rest = customTemplates.filter((t) => t.key !== tpl.key)
+    onCustomTemplatesChange([...rest, tpl])
     reset()
   }
 
@@ -82,10 +94,13 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
     reader.readAsText(file)
   }
 
+  const isCustom = (key: string) => customTemplates.some((c) => c.key === key)
+  const isOverride = (t: Template) => reference.refTemplates.some((r) => r.key === t.key) && isCustom(t.key)
+
   return (
     <div>
       <div className="panel">
-        <h3>New template</h3>
+        <h3>{editingKey ? 'Edit template' : 'New template'}</h3>
         <div className="config-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
           <label>Template name
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. CV3000 - Default" />
@@ -104,19 +119,23 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
 
         {baseShipKey && (
           <div className="config-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', marginTop: 10 }}>
-            {slotLetters.map((slot) => (
-              <label key={slot}>Slot {slot}
-                <select
-                  value={slots[slot] ?? ''}
-                  onChange={(e) => setSlots({ ...slots, [slot]: e.target.value })}
-                >
-                  <option value="">— none —</option>
-                  {reference.modulesForSlot(baseShipKey, slot).map((m) => (
-                    <option key={m.name} value={m.name}>{m.name}</option>
-                  ))}
-                </select>
-              </label>
-            ))}
+            {slotLetters.map((slot) => {
+              const stale = !!slots[slot] && !reference.moduleByName.has(slots[slot])
+              return (
+                <label key={slot}>
+                  Slot {slot}{stale && <span className="warn"> (stale)</span>}
+                  <select
+                    value={stale ? '' : (slots[slot] ?? '')}
+                    onChange={(e) => setSlots({ ...slots, [slot]: e.target.value })}
+                  >
+                    <option value="">{stale ? `— stale: ${slots[slot]} —` : '— none —'}</option>
+                    {reference.modulesForSlot(baseShipKey, slot).map((m) => (
+                      <option key={m.name} value={m.name}>{m.name}</option>
+                    ))}
+                  </select>
+                </label>
+              )
+            })}
           </div>
         )}
 
@@ -128,8 +147,10 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
         )}
 
         <div className="toolbar" style={{ marginTop: 10 }}>
-          <button className="primary" onClick={handleSave} disabled={!name.trim() || !baseShipKey}>Save template</button>
-          <button onClick={reset}>Clear</button>
+          <button className="primary" onClick={handleSave} disabled={!name.trim() || !baseShipKey}>
+            {editingKey ? 'Save changes' : 'Save template'}
+          </button>
+          <button onClick={reset}>{editingKey ? 'Cancel' : 'Clear'}</button>
         </div>
       </div>
 
@@ -146,15 +167,30 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
           </thead>
           <tbody>
             {reference.templates.map((t) => {
-              const isCustom = customTemplates.some((c) => c.key === t.key)
+              const custom = isCustom(t.key)
+              const override = isOverride(t)
               return (
-                <tr key={t.key}>
-                  <td>{t.name}</td>
+                <tr key={t.key} className={editingKey === t.key ? 'editing' : ''}>
+                  <td>
+                    {t.name}
+                    {override && <span className="tag">edited</span>}
+                  </td>
                   <td className="muted">{reference.shipByKey.get(t.baseShipKey)?.name ?? t.baseShipKey}</td>
                   <td className="num">{t.corvSlots}</td>
                   <td className="num">{t.fighterSlots}</td>
                   <td className="muted">{Object.entries(t.slots).map(([s, m]) => `${s}: ${m}`).join(' · ') || '—'}</td>
-                  <td>{isCustom && <button className="small danger" onClick={() => handleDelete(t.key)}>×</button>}</td>
+                  <td>
+                    <button className="small" onClick={() => startEdit(t)}>Edit</button>
+                    {custom && (
+                      <button
+                        className="small danger"
+                        onClick={() => handleDelete(t.key)}
+                        title={override ? 'Revert to default' : 'Delete'}
+                      >
+                        ×
+                      </button>
+                    )}
+                  </td>
                 </tr>
               )
             })}

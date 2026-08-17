@@ -51,7 +51,10 @@ export class Reference {
   }
 
   rebuildTemplates(): void {
-    this.templates = [...this.refTemplates, ...this.customTemplates]
+    const merged = new Map<string, Template>()
+    for (const t of this.refTemplates) merged.set(t.key, t)
+    for (const t of this.customTemplates) merged.set(t.key, t)
+    this.templates = [...merged.values()]
     this.templateByKey = new Map(this.templates.map((t) => [t.key, t]))
   }
 

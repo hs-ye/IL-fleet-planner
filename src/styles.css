@@ -83,3 +83,15 @@ button.danger:hover { border-color: var(--red); color: var(--red); }
 
 .data-table { max-height: 420px; overflow: auto; }
 .data-table th { position: sticky; top: 0; background: var(--panel); z-index: 1; }
+
+.tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(77, 163, 255, 0.15);
+  color: var(--accent);
+  font-size: 11px;
+}
+
+tr.editing { background: rgba(77, 163, 255, 0.08); }
