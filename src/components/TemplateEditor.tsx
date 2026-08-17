@@ -5,11 +5,10 @@ import { uid } from '../serialize'
 
 interface Props {
   reference: Reference
-  customTemplates: Template[]
-  onCustomTemplatesChange: (list: Template[]) => void
+  onTemplatesChange: (list: Template[]) => void
 }
 
-export default function TemplateEditor({ reference, customTemplates, onCustomTemplatesChange }: Props) {
+export default function TemplateEditor({ reference, onTemplatesChange }: Props) {
   const [editingKey, setEditingKey] = useState<string | null>(null)
   const [name, setName] = useState('')
   const [baseShipKey, setBaseShipKey] = useState('')
@@ -51,15 +50,13 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
       corvSlots,
       fighterSlots,
     }
-    // Keep the key stable when editing (so plans already using it stay linked);
-    // this also turns an edit to a reference template into a local override.
-    const rest = customTemplates.filter((t) => t.key !== tpl.key)
-    onCustomTemplatesChange([...rest, tpl])
+    const rest = reference.templates.filter((t) => t.key !== tpl.key)
+    onTemplatesChange([...rest, tpl])
     reset()
   }
 
   const handleDelete = (key: string) => {
-    onCustomTemplatesChange(customTemplates.filter((t) => t.key !== key))
+    onTemplatesChange(reference.templates.filter((t) => t.key !== key))
   }
 
   const handleExport = () => {
@@ -84,18 +81,17 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
       try {
         const arr = JSON.parse(String(reader.result)) as unknown
         if (!Array.isArray(arr)) throw new Error('not an array')
-        const refKeys = new Set(reference.refTemplates.map((t) => t.key))
-        const imported = (arr as Template[]).filter((t) => t && typeof t === 'object' && !refKeys.has(t.key))
-        onCustomTemplatesChange(imported)
+        const merged = new Map(reference.templates.map((t) => [t.key, t]))
+        for (const t of arr as Template[]) {
+          if (t && typeof t === 'object') merged.set(t.key, t)
+        }
+        onTemplatesChange([...merged.values()])
       } catch {
         alert('Invalid templates file (expected a JSON array of templates).')
       }
     }
     reader.readAsText(file)
   }
-
-  const isCustom = (key: string) => customTemplates.some((c) => c.key === key)
-  const isOverride = (t: Template) => reference.refTemplates.some((r) => r.key === t.key) && isCustom(t.key)
 
   return (
     <div>
@@ -166,34 +162,19 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
             <tr><th>Name</th><th>Base ship</th><th className="num">Corv</th><th className="num">Fighter</th><th>Slots</th><th></th></tr>
           </thead>
           <tbody>
-            {reference.templates.map((t) => {
-              const custom = isCustom(t.key)
-              const override = isOverride(t)
-              return (
-                <tr key={t.key} className={editingKey === t.key ? 'editing' : ''}>
-                  <td>
-                    {t.name}
-                    {override && <span className="tag">edited</span>}
-                  </td>
-                  <td className="muted">{reference.shipByKey.get(t.baseShipKey)?.name ?? t.baseShipKey}</td>
-                  <td className="num">{t.corvSlots}</td>
-                  <td className="num">{t.fighterSlots}</td>
-                  <td className="muted">{Object.entries(t.slots).map(([s, m]) => `${s}: ${m}`).join(' · ') || '—'}</td>
-                  <td>
-                    <button className="small" onClick={() => startEdit(t)}>Edit</button>
-                    {custom && (
-                      <button
-                        className="small danger"
-                        onClick={() => handleDelete(t.key)}
-                        title={override ? 'Revert to default' : 'Delete'}
-                      >
-                        ×
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              )
-            })}
+            {reference.templates.map((t) => (
+              <tr key={t.key} className={editingKey === t.key ? 'editing' : ''}>
+                <td>{t.name}</td>
+                <td className="muted">{reference.shipByKey.get(t.baseShipKey)?.name ?? t.baseShipKey}</td>
+                <td className="num">{t.corvSlots}</td>
+                <td className="num">{t.fighterSlots}</td>
+                <td className="muted">{Object.entries(t.slots).map(([s, m]) => `${s}: ${m}`).join(' · ') || '—'}</td>
+                <td>
+                  <button className="small" onClick={() => startEdit(t)}>Edit</button>
+                  <button className="small danger" onClick={() => handleDelete(t.key)}>×</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

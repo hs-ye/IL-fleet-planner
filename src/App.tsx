@@ -10,7 +10,7 @@ import {
   loadPlanFromStorage,
   deletePlanFromStorage,
 } from './serialize'
-import { loadCustomTemplates, saveCustomTemplates } from './templates'
+import { loadTemplates, saveTemplates } from './templates'
 import Planner from './components/Planner'
 import DataView from './components/DataView'
 import TemplateEditor from './components/TemplateEditor'
@@ -37,26 +37,27 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('planner')
   const [plan, setPlan] = useState<FleetPlan>(() => newPlan())
   const [saved, setSaved] = useState(() => listSavedPlans())
-  const [customTemplates, setCustomTemplates] = useState<Template[]>(() => loadCustomTemplates())
+  const [templates, setTemplates] = useState<Template[]>([])
   const [shareOpen, setShareOpen] = useState(false)
   const [shareText, setShareText] = useState('')
 
-  // Rebuild the Reference whenever custom templates change, so edits flow into
-  // the planner + validation immediately (stable identity, no stale renders).
   const reference = useMemo(
-    () => (rawData ? new Reference(rawData, customTemplates) : null),
-    [rawData, customTemplates],
+    () => (rawData ? new Reference(rawData, templates) : null),
+    [rawData, templates],
   )
 
   useEffect(() => {
     loadReferenceData()
-      .then(setRawData)
+      .then((d) => {
+        setRawData(d)
+        setTemplates(loadTemplates(d.templates))
+      })
       .catch((e) => setLoadError(String(e)))
   }, [])
 
-  const handleCustomTemplatesChange = (list: Template[]) => {
-    setCustomTemplates(list)
-    saveCustomTemplates(list)
+  const handleTemplatesChange = (list: Template[]) => {
+    setTemplates(list)
+    saveTemplates(list)
   }
 
   const refreshSaved = () => setSaved(listSavedPlans())
@@ -156,13 +157,7 @@ export default function App() {
 
       {tab === 'planner' && <Planner reference={reference} plan={plan} setPlan={setPlan} />}
       {tab === 'data' && <DataView reference={reference} />}
-      {tab === 'templates' && (
-        <TemplateEditor
-          reference={reference}
-          customTemplates={customTemplates}
-          onCustomTemplatesChange={handleCustomTemplatesChange}
-        />
-      )}
+      {tab === 'templates' && <TemplateEditor reference={reference} onTemplatesChange={handleTemplatesChange} />}
     </div>
   )
 }

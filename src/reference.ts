@@ -33,34 +33,18 @@ export async function loadReferenceData(): Promise<ReferenceData> {
 export class Reference {
   ships: Ship[]
   modules: Module[]
-  templates!: Template[]
-  refTemplates: Template[]
-  customTemplates: Template[]
+  templates: Template[]
   shipByKey: Map<string, Ship>
-  templateByKey!: Map<string, Template>
+  templateByKey: Map<string, Template>
   moduleByName: Map<string, Module>
 
-  constructor(data: ReferenceData, customTemplates: Template[] = []) {
+  constructor(data: ReferenceData, templates?: Template[]) {
     this.ships = data.ships
     this.modules = data.modules
-    this.refTemplates = data.templates
-    this.customTemplates = customTemplates
+    this.templates = templates ?? data.templates
     this.shipByKey = new Map(data.ships.map((s) => [s.key, s]))
     this.moduleByName = new Map(data.modules.map((m) => [m.name, m]))
-    this.rebuildTemplates()
-  }
-
-  rebuildTemplates(): void {
-    const merged = new Map<string, Template>()
-    for (const t of this.refTemplates) merged.set(t.key, t)
-    for (const t of this.customTemplates) merged.set(t.key, t)
-    this.templates = [...merged.values()]
     this.templateByKey = new Map(this.templates.map((t) => [t.key, t]))
-  }
-
-  setCustomTemplates(custom: Template[]): void {
-    this.customTemplates = custom
-    this.rebuildTemplates()
   }
 
   private static SLOT_ORDER = ['M', 'A', 'B', 'C', 'D', 'E', 'F']
