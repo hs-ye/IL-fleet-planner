@@ -1,18 +1,18 @@
-"""One-time export: IL Fleet Planner.xlsx -> reference-data.json (flat file for the web app).
+"""One-time export: IL Fleet Planner.xlsx -> reference-data JSON files for the web app.
 
-Reads the reference sheets directly (read-only), computes composite ship keys (base:variant),
-maps modules/templates to ship keys, and derives template hangar totals. Write the result to
-public/reference-data.json in the app repo.
+Splits the reference data into three flat files so each can be inspected/edited on its own:
+  public/reference-data/ships.json      (bare array of ships)
+  public/reference-data/modules.json    (bare array of modules)
+  public/reference-data/templates.json  (bare array of templates)
 
 Run:  uv run --with openpyxl python scripts/export_reference.py
 """
 import json
-import datetime
 import os
 from openpyxl import load_workbook
 
 EXCEL = r"C:\Users\yehan\Dropbox\Analysis\IL Fleet Planner.xlsx"
-OUT = r"C:\GitRepos\IL-fleet-planner\public\reference-data.json"
+OUT_DIR = r"C:\GitRepos\IL-fleet-planner\public\reference-data"
 
 
 def clean(v):
@@ -46,7 +46,7 @@ for r in wb["Ships"].iter_rows(min_row=2):
     base = clean(r[1].value)
     variant = clean(r[2].value)
     key = f"{base}:{variant}" if (base and variant) else (base or name)
-    if key in used_keys:  # dedupe collisions defensively
+    if key in used_keys:
         i = 2
         while f"{key}~{i}" in used_keys:
             i += 1
@@ -116,21 +116,17 @@ for r in wb["Templates"].iter_rows(min_row=2):
         "fighterSlots": ftr_total,
     })
 
-data = {
-    "version": 1,
-    "generated": datetime.datetime.now().isoformat(timespec="seconds"),
-    "ships": ships,
-    "modules": modules,
-    "templates": templates,
-}
+os.makedirs(OUT_DIR, exist_ok=True)
 
-os.makedirs(os.path.dirname(OUT), exist_ok=True)
-with open(OUT, "w", encoding="utf-8") as f:
-    json.dump(data, f, ensure_ascii=False, indent=2)
+def write_json(filename, payload):
+    path = os.path.join(OUT_DIR, filename)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+    print(f"  {path}  ({len(payload)} entries)")
 
-print(f"Wrote {OUT}")
-print(f"  ships: {len(ships)} | modules: {len(modules)} | templates: {len(templates)}")
-# sanity: any ship keys colliding or empty-base ships
+write_json("ships.json", ships)
+write_json("modules.json", modules)
+write_json("templates.json", templates)
+
 empty_base = [s["name"] for s in ships if not s["base"]]
-print(f"  ships with empty base (key=name): {len(empty_base)}")
-print(f"  e.g. {empty_base[:8]}")
+print(f"ships with empty base (key=name): {len(empty_base)}")

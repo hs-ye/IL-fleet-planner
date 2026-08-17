@@ -1,0 +1,124 @@
+[
+  {
+    "key": "Solar Whale -M1",
+    "name": "Solar Whale -M1",
+    "baseShipKey": "Solar Whale:A",
+    "slots": {
+      "M": "Whale M1 - Corvette Dock Array"
+    },
+    "corvSlots": 6,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Solar Whale - 13x Air",
+    "name": "Solar Whale - 13x Air",
+    "baseShipKey": "Solar Whale:A",
+    "slots": {
+      "M": "Whale M2 - Aircraft Hangar Array"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 8
+  },
+  {
+    "key": "CV3000 - Corv Focus",
+    "name": "CV3000 - Corv Focus",
+    "baseShipKey": "CV3000:A",
+    "slots": {
+      "M": "CV3000 M1 - Corvette Dock",
+      "A": "CV3000 A1 - Extra Hangar",
+      "B": "CV3000 B1 - Armour Plate"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "CV3000 - Air Focus",
+    "name": "CV3000 - Air Focus",
+    "baseShipKey": "CV3000:A",
+    "slots": {
+      "M": "CV3000 M2 - Heavy Fighter Squadron",
+      "A": "CV3000 A1 - Extra Hangar",
+      "B": "CV3000 B2 - EW Suite"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Spear - Corv Dock",
+    "name": "Spear - Corv Dock",
+    "baseShipKey": "Spear of Uranus:A",
+    "slots": {
+      "M": "Spear M1 - Corvette Dock",
+      "A": "Spear A1 - Ion Battery",
+      "B": "Spear B1 - Nano Armour"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Spear - Siege",
+    "name": "Spear - Siege",
+    "baseShipKey": "Spear of Uranus:A",
+    "slots": {
+      "M": "Spear M2 - Siege Railgun",
+      "A": "Spear A2 - Projectile Battery",
+      "B": "Spear B2 - AA Battery"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "ST59 - Rail Tank",
+    "name": "ST59 - Rail Tank",
+    "baseShipKey": "ST59:A",
+    "slots": {
+      "M": "ST59 M1 - Heavy Railgun",
+      "A": "ST59 A1 - AA Cannon",
+      "B": "ST59 B1 - Armour"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "ST59 - Corv Hybrid",
+    "name": "ST59 - Corv Hybrid",
+    "baseShipKey": "ST59:A",
+    "slots": {
+      "M": "ST59 M2 - Ion Cannon",
+      "A": "ST59 A2 - Missile Pod",
+      "B": "ST59 B2 - Corvette Dock"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Thunderbolt - Rail",
+    "name": "Thunderbolt - Rail",
+    "baseShipKey": "Thunderbolt Star:A",
+    "slots": {
+      "M": "Thunderbolt M1 - Long Rail"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Thunderbolt - Corv",
+    "name": "Thunderbolt - Corv",
+    "baseShipKey": "Thunderbolt Star:A",
+    "slots": {
+      "M": "Thunderbolt M3 - Corvette Dock"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Plutus Heavy",
+    "name": "Plutus Heavy",
+    "baseShipKey": "Shield of Plutus:A",
+    "slots": {
+      "M": "Plutus M1 - integrated Weapons"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  }
+]

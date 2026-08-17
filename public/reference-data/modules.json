@@ -1,0 +1,1154 @@
+[
+  {
+    "shipKey": "Solar Whale:A",
+    "slot": "M",
+    "name": "Whale M1 - Corvette Dock Array",
+    "corvCapacity": 6,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Solar Whale:A",
+    "slot": "M",
+    "name": "Whale M2 - Aircraft Hangar Array",
+    "corvCapacity": 0,
+    "fighterCapacity": 8,
+    "hangarSize": "Large",
+    "effect": null
+  },
+  {
+    "shipKey": "Solar Whale:A",
+    "slot": "A",
+    "name": "Whale A1 - Integrated Weapons",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Solar Whale:A",
+    "slot": "A",
+    "name": "Whale A2 - Projectile Launcher",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Solar Whale:A",
+    "slot": "A",
+    "name": "Whale A3 - Cannon System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Solar Whale:A",
+    "slot": "B",
+    "name": "Whale B1 Ship Maintenance System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Solar Whale:A",
+    "slot": "B",
+    "name": "Whale B2 Corvette Loading",
+    "corvCapacity": 3,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Solar Whale:A",
+    "slot": "C",
+    "name": "Whale C1 Aicraft Hangar",
+    "corvCapacity": 0,
+    "fighterCapacity": 5,
+    "hangarSize": "Large",
+    "effect": null
+  },
+  {
+    "shipKey": "Solar Whale:A",
+    "slot": "C",
+    "name": "Whale C2 Siege UAV",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Solar Whale:A",
+    "slot": "C",
+    "name": "Whale C3 Anti-Missile",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "CV3000:A",
+    "slot": "M",
+    "name": "CV3000 M1 - Integrated Hangar",
+    "corvCapacity": 3,
+    "fighterCapacity": 5,
+    "hangarSize": "Large",
+    "effect": null
+  },
+  {
+    "shipKey": "CV3000:A",
+    "slot": "M",
+    "name": "CV3000 M2 - Fighter Hangar",
+    "corvCapacity": 0,
+    "fighterCapacity": 8,
+    "hangarSize": "Large",
+    "effect": null
+  },
+  {
+    "shipKey": "CV3000:A",
+    "slot": "M",
+    "name": "CV3000 M3 - UAV Hangar",
+    "corvCapacity": 0,
+    "fighterCapacity": 5,
+    "hangarSize": "Large",
+    "effect": null
+  },
+  {
+    "shipKey": "CV3000:A",
+    "slot": "A",
+    "name": "CV3000 A1 - Dragoon Cannon",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "CV3000:A",
+    "slot": "A",
+    "name": "CV3000 A2 - Missile Battery",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "CV3000:A",
+    "slot": "B",
+    "name": "CV3000 B1 - Missile Defense",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "CV3000:A",
+    "slot": "B",
+    "name": "CV3000 B2 - Corvette Hangar",
+    "corvCapacity": 3,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "CV3000:A",
+    "slot": "B",
+    "name": "CV3000 B3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "CV3000:A",
+    "slot": "B",
+    "name": "CV3000 B4 - UAV System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "M",
+    "name": "Spear M1 - Siege Railgun",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "M",
+    "name": "Spear M2 - Ion Cannon",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "A",
+    "name": "Spear A1 - Cannon A",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "A",
+    "name": "Spear A2 - Cannon B",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "A",
+    "name": "Spear A3 - Cannon F",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "B",
+    "name": "Spear B1 - Minecart Missile Array",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "B",
+    "name": "Spear B2 - Corvette Dock",
+    "corvCapacity": 3,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "B",
+    "name": "Spera B3 - Integrated Damage Control",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "C",
+    "name": "Spear C1 - Distributed Weapon Control",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "C",
+    "name": "Spear C2 - Additional Armour",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Spear of Uranus:A",
+    "slot": "C",
+    "name": "Spear C3 - Anti-Missile",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "M",
+    "name": "ST59 M1 - Assault Railgun",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "M",
+    "name": "ST59 M2 - Assault Cannon",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "M",
+    "name": "ST59 M3 - Assault Torpedo",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "A",
+    "name": "ST59 A1 - Cannon Platform",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "A",
+    "name": "ST59 A2 - Railgun Array",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "A",
+    "name": "ST59 A2 - Pulse Turrets",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "B",
+    "name": "ST59 B1 - Torpedo System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": "survivability"
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "B",
+    "name": "ST59 B2 - Aircraft System",
+    "corvCapacity": 0,
+    "fighterCapacity": 4,
+    "hangarSize": "Medium",
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "B",
+    "name": "ST59 B3 - Spotter UAVs",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "C",
+    "name": "ST59 C1 - EM Armour",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "C",
+    "name": "ST59 C2 - Heavy Armour",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "ST59:A",
+    "slot": "C",
+    "name": "ST59 C3 - Extra Armour",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "M",
+    "name": "CTG - M1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "M",
+    "name": "CTG - M2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "A",
+    "name": "CTG - A1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "A",
+    "name": "CTG - A2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "B",
+    "name": "CTG - B1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "B",
+    "name": "CTG - B2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "B",
+    "name": "CTG - B3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "C",
+    "name": "CTG - C1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "C",
+    "name": "CTG - C2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "C",
+    "name": "CTG - C3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "M",
+    "name": "ES M1 - Ion Cannon",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "M",
+    "name": "ES M2 - Plasma Caster",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "A",
+    "name": "ES A1 - Projectile Launcher",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "A",
+    "name": "ES A2 - Energy Torpedo",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "A",
+    "name": "ES A3 - Siege Torpedo",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "B",
+    "name": "ES B1 - Generic Cannon",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "B",
+    "name": "ES B2 - Anti-air cannon",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "C",
+    "name": "ES C1 -",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "C",
+    "name": "ES C2 - Energy Shield UAV",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "C",
+    "name": "ES C3 - Energy Armour",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "D",
+    "name": "ES D1 - Ion Turret",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Storm:A",
+    "slot": "D",
+    "name": "ES D2 - Pulse Anti-Air",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "M",
+    "name": "Thunderbolt M1 - Railgun",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "M",
+    "name": "Thunderbolt M2 - Ion Cannon",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "M",
+    "name": "Thunderbolt M3 - Energy Torpedo",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "M",
+    "name": "Plutus M1 - integrated Weapons",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "M",
+    "name": "SOP - M2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "M",
+    "name": "SOP - M3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "A",
+    "name": "Plutus A1 - Fortress Defense",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "A",
+    "name": "SOP - A2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "A",
+    "name": "SOP - A3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "B",
+    "name": "SOP - B1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "B",
+    "name": "Plutus B2 - Additional Armour",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "B",
+    "name": "Plutus B3 - Anti-Missile System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "C",
+    "name": "SOP - C1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "C",
+    "name": "SOP - C2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Shield of Plutus:A",
+    "slot": "C",
+    "name": "SOP - C3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "M",
+    "name": "AS - M1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "M",
+    "name": "AS - M2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "A",
+    "name": "AS - A1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "A",
+    "name": "AS - A2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "A",
+    "name": "AS - A3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "B",
+    "name": "AS - B1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "B",
+    "name": "AS - B2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "B",
+    "name": "AS - B3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Mergrez:A",
+    "slot": "M",
+    "name": "MER - M1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Mergrez:A",
+    "slot": "M",
+    "name": "MER - M2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Mergrez:A",
+    "slot": "A",
+    "name": "MER - A1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Mergrez:A",
+    "slot": "A",
+    "name": "MER - A2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Mergrez:A",
+    "slot": "A",
+    "name": "MER - A3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Mergrez:A",
+    "slot": "B",
+    "name": "MER - B1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Mergrez:A",
+    "slot": "B",
+    "name": "MER - B2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Mergrez:A",
+    "slot": "C",
+    "name": "MER - C1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Mergrez:A",
+    "slot": "C",
+    "name": "MER - C2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Mergrez:A",
+    "slot": "C",
+    "name": "MER - C3 - Heavy Armour",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Marshal Crux:A",
+    "slot": "M",
+    "name": "Crux M1 - Ion Cannon",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Marshal Crux:A",
+    "slot": "M",
+    "name": "Crux M2 - Railgun",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Marshal Crux:A",
+    "slot": "A",
+    "name": "Crux A1 - Aircraft Hangar",
+    "corvCapacity": 0,
+    "fighterCapacity": 6,
+    "hangarSize": "Large",
+    "effect": null
+  },
+  {
+    "shipKey": "Marshal Crux:A",
+    "slot": "A",
+    "name": "Crux A2 - Corvette Hangar",
+    "corvCapacity": 6,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Marshal Crux:A",
+    "slot": "B",
+    "name": "Crux B1 - Energy System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Marshal Crux:A",
+    "slot": "B",
+    "name": "Crux B2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Marshal Crux:A",
+    "slot": "C",
+    "name": "Crux C1 - Extra Hangar",
+    "corvCapacity": 0,
+    "fighterCapacity": 4,
+    "hangarSize": "Medium",
+    "effect": null
+  },
+  {
+    "shipKey": "Marshal Crux:A",
+    "slot": "C",
+    "name": "Crux C2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Marshal Crux:A",
+    "slot": "C",
+    "name": "Crux C3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "M",
+    "name": "DUB - M1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "M",
+    "name": "DUB - M2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "M",
+    "name": "DUB - M3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "A",
+    "name": "DUB - A1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "A",
+    "name": "DUB - A2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "B",
+    "name": "DUB - B1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "B",
+    "name": "DUB - B2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "C",
+    "name": "DUB - C1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "C",
+    "name": "DUB - C2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "C",
+    "name": "DUB - C3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "M",
+    "name": "EH M1 - Collaborative Hangar 1",
+    "corvCapacity": 0,
+    "fighterCapacity": 3,
+    "hangarSize": "Medium",
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "M",
+    "name": "EH M2 - Collaborative Hangar 2",
+    "corvCapacity": 0,
+    "fighterCapacity": 3,
+    "hangarSize": "Medium",
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "M",
+    "name": "EH M3 - Collaborative Hangar 3",
+    "corvCapacity": 0,
+    "fighterCapacity": 3,
+    "hangarSize": "Medium",
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "A",
+    "name": "EH A1 - Integrated Cannon",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "A",
+    "name": "EH - A2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "A",
+    "name": "EH - A3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "B",
+    "name": "EH - B1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "B",
+    "name": "EH B2 - Anti Air Defense",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "B",
+    "name": "EH - B3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "C",
+    "name": "EH C1 - Fighter Hangar",
+    "corvCapacity": 0,
+    "fighterCapacity": 3,
+    "hangarSize": "Large",
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "C",
+    "name": "EH C2 - Corvette Hangar",
+    "corvCapacity": 3,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Eternal Heavens:A",
+    "slot": "C",
+    "name": "EH C3 - Repair UAV",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  }
+]

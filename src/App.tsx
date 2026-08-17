@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import type { ReferenceData, FleetPlan, Template } from './types'
-import { Reference } from './reference'
+import type { FleetPlan, Template } from './types'
+import { Reference, loadReferenceData } from './reference'
 import {
   uid,
   serializePlan,
@@ -42,12 +42,8 @@ export default function App() {
   const [shareText, setShareText] = useState('')
 
   useEffect(() => {
-    fetch('/reference-data.json')
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`)
-        return r.json()
-      })
-      .then((d: ReferenceData) => setReference(new Reference(d)))
+    loadReferenceData()
+      .then((d) => setReference(new Reference(d)))
       .catch((e) => setLoadError(String(e)))
   }, [])
 

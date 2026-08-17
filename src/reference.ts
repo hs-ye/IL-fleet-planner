@@ -10,6 +10,26 @@ import type {
   Size,
 } from './types'
 
+export async function loadReferenceData(): Promise<ReferenceData> {
+  const fetchJson = async (name: string): Promise<unknown> => {
+    const r = await fetch(`/reference-data/${name}.json`)
+    if (!r.ok) throw new Error(`${name} HTTP ${r.status}`)
+    return r.json()
+  }
+  const [ships, modules, templates] = await Promise.all([
+    fetchJson('ships'),
+    fetchJson('modules'),
+    fetchJson('templates'),
+  ])
+  return {
+    version: 1,
+    generated: '',
+    ships: ships as Ship[],
+    modules: modules as Module[],
+    templates: templates as Template[],
+  }
+}
+
 export class Reference {
   ships: Ship[]
   modules: Module[]

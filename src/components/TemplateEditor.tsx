@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, type ChangeEvent } from 'react'
 import type { Template } from '../types'
 import type { Reference } from '../reference'
 import { uid } from '../serialize'
@@ -13,6 +13,7 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
   const [name, setName] = useState('')
   const [baseShipKey, setBaseShipKey] = useState('')
   const [slots, setSlots] = useState<Record<string, string>>({})
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const templateable = reference.templateableShips()
   const slotLetters = baseShipKey ? reference.slotsForShip(baseShipKey) : []
@@ -49,13 +50,45 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
     onCustomTemplatesChange(customTemplates.filter((t) => t.key !== key))
   }
 
+  const handleExport = () => {
+    const data = JSON.stringify(reference.templates, null, 2)
+    const blob = new Blob([data], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'templates.json'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  const handleImportFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      try {
+        const arr = JSON.parse(String(reader.result)) as unknown
+        if (!Array.isArray(arr)) throw new Error('not an array')
+        const refKeys = new Set(reference.refTemplates.map((t) => t.key))
+        const imported = (arr as Template[]).filter((t) => t && typeof t === 'object' && !refKeys.has(t.key))
+        onCustomTemplatesChange(imported)
+      } catch {
+        alert('Invalid templates file (expected a JSON array of templates).')
+      }
+    }
+    reader.readAsText(file)
+  }
+
   return (
     <div>
       <div className="panel">
         <h3>New template</h3>
         <div className="config-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
           <label>Template name
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. CV3000 - Corv Focus" />
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. CV3000 - Default" />
           </label>
           <label>Base ship
             <select
@@ -101,7 +134,12 @@ export default function TemplateEditor({ reference, customTemplates, onCustomTem
       </div>
 
       <div className="panel">
-        <h3>All templates ({reference.templates.length})</h3>
+        <div className="toolbar">
+          <h3 style={{ margin: 0, flexGrow: 1 }}>All templates ({reference.templates.length})</h3>
+          <button className="small" onClick={handleExport}>Export templates</button>
+          <button className="small" onClick={() => fileInputRef.current?.click()}>Import templates</button>
+          <input ref={fileInputRef} type="file" accept="application/json,.json" style={{ display: 'none' }} onChange={handleImportFile} />
+        </div>
         <table>
           <thead>
             <tr><th>Name</th><th>Base ship</th><th className="num">Corv</th><th className="num">Fighter</th><th>Slots</th><th></th></tr>
