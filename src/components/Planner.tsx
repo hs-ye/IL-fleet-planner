@@ -128,10 +128,10 @@ export default function Planner({ reference, plan, setPlan }: Props) {
             <input type="text" value={plan.server} onChange={(e) => setConfig({ server: e.target.value })} />
           </label>
           <label>Main max CP
-            <input type="number" min={1} value={plan.mainMaxCp} onChange={(e) => setConfig({ mainMaxCp: Number(e.target.value) || 0 })} />
+            <input type="number" min={10} step={10} value={plan.mainMaxCp} onChange={(e) => setConfig({ mainMaxCp: Number(e.target.value) || 0 })} />
           </label>
           <label>RF max CP
-            <input type="number" min={1} value={plan.rfMaxCp} onChange={(e) => setConfig({ rfMaxCp: Number(e.target.value) || 0 })} />
+            <input type="number" min={10} step={10} value={plan.rfMaxCp} onChange={(e) => setConfig({ rfMaxCp: Number(e.target.value) || 0 })} />
           </label>
           <label>RF max ships (1–9)
             <input type="number" min={1} max={9} value={plan.rfMaxShips} onChange={(e) => setConfig({ rfMaxShips: Math.min(9, Math.max(1, Number(e.target.value) || 1)) })} />
