@@ -1,122 +1,142 @@
 [
   {
-    "key": "Solar Whale -M1",
-    "name": "Solar Whale -M1",
+    "key": "Antotas Swordbearer - Default",
+    "name": "Antotas Swordbearer - Default",
+    "baseShipKey": "Antotas Swordbearer:A",
+    "slots": {
+      "M": "AS - M1",
+      "A": "AS - A1"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "CV3000 - Default",
+    "name": "CV3000 - Default",
+    "baseShipKey": "CV3000:A",
+    "slots": {
+      "M": "CV3000 M1 - Integrated Hangar",
+      "A": "CV3000 A1 - Dragoon Cannon"
+    },
+    "corvSlots": 3,
+    "fighterSlots": 5
+  },
+  {
+    "key": "Constantine the Great - Default",
+    "name": "Constantine the Great - Default",
+    "baseShipKey": "Constantine the Great:A",
+    "slots": {
+      "M": "CTG - M1",
+      "A": "CTG - A1"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Dubhe - Default",
+    "name": "Dubhe - Default",
+    "baseShipKey": "Dubhe:A",
+    "slots": {
+      "M": "DUB - M1",
+      "A": "DUB - A1"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Eternal Heavens - Default",
+    "name": "Eternal Heavens - Default",
+    "baseShipKey": "Eternal Heavens:A",
+    "slots": {
+      "M": "EH M1 - Collaborative Hangar 1",
+      "A": "EH A1 - Integrated Cannon"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 3
+  },
+  {
+    "key": "Eternal Storm - Default",
+    "name": "Eternal Storm - Default",
+    "baseShipKey": "Eternal Storm:A",
+    "slots": {
+      "M": "ES M1 - Ion Cannon",
+      "A": "ES A1 - Projectile Launcher"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Marshal Crux - Default",
+    "name": "Marshal Crux - Default",
+    "baseShipKey": "Marshal Crux:A",
+    "slots": {
+      "M": "Crux M1 - Ion Cannon",
+      "A": "Crux A1 - Aircraft Hangar"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 6
+  },
+  {
+    "key": "Mergrez - Default",
+    "name": "Mergrez - Default",
+    "baseShipKey": "Mergrez:A",
+    "slots": {
+      "M": "MER - M1",
+      "A": "MER - A1"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "ST59 - Default",
+    "name": "ST59 - Default",
+    "baseShipKey": "ST59:A",
+    "slots": {
+      "M": "ST59 M1 - Assault Railgun",
+      "A": "ST59 A1 - Cannon Platform"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Shield of Plutus - Default",
+    "name": "Shield of Plutus - Default",
+    "baseShipKey": "Shield of Plutus:A",
+    "slots": {
+      "M": "Plutus M1 - integrated Weapons",
+      "A": "Plutus A1 - Fortress Defense"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "Solar Whale - Default",
+    "name": "Solar Whale - Default",
     "baseShipKey": "Solar Whale:A",
     "slots": {
-      "M": "Whale M1 - Corvette Dock Array"
+      "M": "Whale M1 - Corvette Dock Array",
+      "A": "Whale A1 - Integrated Weapons"
     },
     "corvSlots": 6,
     "fighterSlots": 0
   },
   {
-    "key": "Solar Whale - 13x Air",
-    "name": "Solar Whale - 13x Air",
-    "baseShipKey": "Solar Whale:A",
-    "slots": {
-      "M": "Whale M2 - Aircraft Hangar Array"
-    },
-    "corvSlots": 0,
-    "fighterSlots": 8
-  },
-  {
-    "key": "CV3000 - Corv Focus",
-    "name": "CV3000 - Corv Focus",
-    "baseShipKey": "CV3000:A",
-    "slots": {
-      "M": "CV3000 M1 - Corvette Dock",
-      "A": "CV3000 A1 - Extra Hangar",
-      "B": "CV3000 B1 - Armour Plate"
-    },
-    "corvSlots": 0,
-    "fighterSlots": 0
-  },
-  {
-    "key": "CV3000 - Air Focus",
-    "name": "CV3000 - Air Focus",
-    "baseShipKey": "CV3000:A",
-    "slots": {
-      "M": "CV3000 M2 - Heavy Fighter Squadron",
-      "A": "CV3000 A1 - Extra Hangar",
-      "B": "CV3000 B2 - EW Suite"
-    },
-    "corvSlots": 0,
-    "fighterSlots": 0
-  },
-  {
-    "key": "Spear - Corv Dock",
-    "name": "Spear - Corv Dock",
+    "key": "Spear of Uranus - Default",
+    "name": "Spear of Uranus - Default",
     "baseShipKey": "Spear of Uranus:A",
     "slots": {
-      "M": "Spear M1 - Corvette Dock",
-      "A": "Spear A1 - Ion Battery",
-      "B": "Spear B1 - Nano Armour"
+      "M": "Spear M1 - Siege Railgun",
+      "A": "Spear A1 - Cannon A"
     },
     "corvSlots": 0,
     "fighterSlots": 0
   },
   {
-    "key": "Spear - Siege",
-    "name": "Spear - Siege",
-    "baseShipKey": "Spear of Uranus:A",
-    "slots": {
-      "M": "Spear M2 - Siege Railgun",
-      "A": "Spear A2 - Projectile Battery",
-      "B": "Spear B2 - AA Battery"
-    },
-    "corvSlots": 0,
-    "fighterSlots": 0
-  },
-  {
-    "key": "ST59 - Rail Tank",
-    "name": "ST59 - Rail Tank",
-    "baseShipKey": "ST59:A",
-    "slots": {
-      "M": "ST59 M1 - Heavy Railgun",
-      "A": "ST59 A1 - AA Cannon",
-      "B": "ST59 B1 - Armour"
-    },
-    "corvSlots": 0,
-    "fighterSlots": 0
-  },
-  {
-    "key": "ST59 - Corv Hybrid",
-    "name": "ST59 - Corv Hybrid",
-    "baseShipKey": "ST59:A",
-    "slots": {
-      "M": "ST59 M2 - Ion Cannon",
-      "A": "ST59 A2 - Missile Pod",
-      "B": "ST59 B2 - Corvette Dock"
-    },
-    "corvSlots": 0,
-    "fighterSlots": 0
-  },
-  {
-    "key": "Thunderbolt - Rail",
-    "name": "Thunderbolt - Rail",
+    "key": "Thunderbolt Star - Default",
+    "name": "Thunderbolt Star - Default",
     "baseShipKey": "Thunderbolt Star:A",
     "slots": {
-      "M": "Thunderbolt M1 - Long Rail"
-    },
-    "corvSlots": 0,
-    "fighterSlots": 0
-  },
-  {
-    "key": "Thunderbolt - Corv",
-    "name": "Thunderbolt - Corv",
-    "baseShipKey": "Thunderbolt Star:A",
-    "slots": {
-      "M": "Thunderbolt M3 - Corvette Dock"
-    },
-    "corvSlots": 0,
-    "fighterSlots": 0
-  },
-  {
-    "key": "Plutus Heavy",
-    "name": "Plutus Heavy",
-    "baseShipKey": "Shield of Plutus:A",
-    "slots": {
-      "M": "Plutus M1 - integrated Weapons"
+      "M": "Thunderbolt M1 - Railgun"
     },
     "corvSlots": 0,
     "fighterSlots": 0

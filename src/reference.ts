@@ -38,10 +38,10 @@ export class Reference {
   templateByKey: Map<string, Template>
   moduleByName: Map<string, Module>
 
-  constructor(data: ReferenceData, templates?: Template[]) {
+  constructor(data: ReferenceData) {
     this.ships = data.ships
     this.modules = data.modules
-    this.templates = templates ?? data.templates
+    this.templates = data.templates
     this.shipByKey = new Map(data.ships.map((s) => [s.key, s]))
     this.moduleByName = new Map(data.modules.map((m) => [m.name, m]))
     this.templateByKey = new Map(this.templates.map((t) => [t.key, t]))

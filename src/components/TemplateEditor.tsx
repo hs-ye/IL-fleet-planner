@@ -6,9 +6,10 @@ import { uid } from '../serialize'
 interface Props {
   reference: Reference
   onTemplatesChange: (list: Template[]) => void
+  onResetTemplates: () => void
 }
 
-export default function TemplateEditor({ reference, onTemplatesChange }: Props) {
+export default function TemplateEditor({ reference, onTemplatesChange, onResetTemplates }: Props) {
   const [editingKey, setEditingKey] = useState<string | null>(null)
   const [name, setName] = useState('')
   const [baseShipKey, setBaseShipKey] = useState('')
@@ -153,6 +154,7 @@ export default function TemplateEditor({ reference, onTemplatesChange }: Props) 
       <div className="panel">
         <div className="toolbar">
           <h3 style={{ margin: 0, flexGrow: 1 }}>All templates ({reference.templates.length})</h3>
+          <button className="small" onClick={onResetTemplates}>Reset</button>
           <button className="small" onClick={handleExport}>Export templates</button>
           <button className="small" onClick={() => fileInputRef.current?.click()}>Import templates</button>
           <input ref={fileInputRef} type="file" accept="application/json,.json" style={{ display: 'none' }} onChange={handleImportFile} />

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { ReferenceData, FleetPlan, Template } from './types'
+import type { ReferenceData, FleetPlan, Ship, Module, Template } from './types'
 import { Reference, loadReferenceData } from './reference'
 import {
   uid,
@@ -10,7 +10,7 @@ import {
   loadPlanFromStorage,
   deletePlanFromStorage,
 } from './serialize'
-import { loadTemplates, saveTemplates } from './templates'
+import { loadShips, saveShips, loadModules, saveModules, loadTemplates, saveTemplates } from './storage'
 import Planner from './components/Planner'
 import DataView from './components/DataView'
 import TemplateEditor from './components/TemplateEditor'
@@ -37,28 +37,34 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('planner')
   const [plan, setPlan] = useState<FleetPlan>(() => newPlan())
   const [saved, setSaved] = useState(() => listSavedPlans())
+  const [ships, setShips] = useState<Ship[]>([])
+  const [modules, setModules] = useState<Module[]>([])
   const [templates, setTemplates] = useState<Template[]>([])
   const [shareOpen, setShareOpen] = useState(false)
   const [shareText, setShareText] = useState('')
 
   const reference = useMemo(
-    () => (rawData ? new Reference(rawData, templates) : null),
-    [rawData, templates],
+    () => (rawData ? new Reference({ version: 1, generated: '', ships, modules, templates }) : null),
+    [rawData, ships, modules, templates],
   )
 
   useEffect(() => {
     loadReferenceData()
       .then((d) => {
         setRawData(d)
+        setShips(loadShips(d.ships))
+        setModules(loadModules(d.modules))
         setTemplates(loadTemplates(d.templates))
       })
       .catch((e) => setLoadError(String(e)))
   }, [])
 
-  const handleTemplatesChange = (list: Template[]) => {
-    setTemplates(list)
-    saveTemplates(list)
-  }
+  const handleShipsChange = (list: Ship[]) => { setShips(list); saveShips(list) }
+  const handleModulesChange = (list: Module[]) => { setModules(list); saveModules(list) }
+  const handleTemplatesChange = (list: Template[]) => { setTemplates(list); saveTemplates(list) }
+  const resetShips = () => { if (rawData) { setShips(rawData.ships); saveShips(rawData.ships) } }
+  const resetModules = () => { if (rawData) { setModules(rawData.modules); saveModules(rawData.modules) } }
+  const resetTemplates = () => { if (rawData) { setTemplates(rawData.templates); saveTemplates(rawData.templates) } }
 
   const refreshSaved = () => setSaved(listSavedPlans())
 
@@ -156,8 +162,18 @@ export default function App() {
       </div>
 
       {tab === 'planner' && <Planner reference={reference} plan={plan} setPlan={setPlan} />}
-      {tab === 'data' && <DataView reference={reference} />}
-      {tab === 'templates' && <TemplateEditor reference={reference} onTemplatesChange={handleTemplatesChange} />}
+      {tab === 'data' && (
+        <DataView
+          reference={reference}
+          onShipsChange={handleShipsChange}
+          onModulesChange={handleModulesChange}
+          onResetShips={resetShips}
+          onResetModules={resetModules}
+        />
+      )}
+      {tab === 'templates' && (
+        <TemplateEditor reference={reference} onTemplatesChange={handleTemplatesChange} onResetTemplates={resetTemplates} />
+      )}
     </div>
   )
 }
