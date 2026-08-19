@@ -60,7 +60,29 @@ export default function App() {
   }, [])
 
   const handleShipsChange = (list: Ship[]) => { setShips(list); saveShips(list) }
-  const handleModulesChange = (list: Module[]) => { setModules(list); saveModules(list) }
+  const handleModulesChange = (list: Module[]) => {
+    // Recompute template totals from the (possibly changed) modules so the
+    // Templates page and exports stay in sync with the planner.
+    const byName = new Map(list.map((m) => [m.name, m]))
+    const newTemplates = templates.map((t) => {
+      let corv = 0
+      let ftr = 0
+      for (const modName of Object.values(t.slots)) {
+        const mod = byName.get(modName)
+        if (mod) {
+          corv += mod.corvCapacity
+          ftr += mod.fighterCapacity
+        }
+      }
+      return t.corvSlots === corv && t.fighterSlots === ftr ? t : { ...t, corvSlots: corv, fighterSlots: ftr }
+    })
+    setModules(list)
+    saveModules(list)
+    if (newTemplates.some((t, i) => t !== templates[i])) {
+      setTemplates(newTemplates)
+      saveTemplates(newTemplates)
+    }
+  }
   const handleTemplatesChange = (list: Template[]) => { setTemplates(list); saveTemplates(list) }
   const resetShips = () => { if (rawData) { setShips(rawData.ships); saveShips(rawData.ships) } }
   const resetModules = () => { if (rawData) { setModules(rawData.modules); saveModules(rawData.modules) } }

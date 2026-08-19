@@ -60,6 +60,20 @@ export default function TemplateEditor({ reference, onTemplatesChange, onResetTe
     onTemplatesChange(reference.templates.filter((t) => t.key !== key))
   }
 
+  // Live totals derived from the current modules (not the stored snapshot).
+  const liveTotals = (t: Template) => {
+    let corv = 0
+    let ftr = 0
+    for (const modName of Object.values(t.slots)) {
+      const mod = reference.moduleByName.get(modName)
+      if (mod) {
+        corv += mod.corvCapacity
+        ftr += mod.fighterCapacity
+      }
+    }
+    return { corv, ftr }
+  }
+
   const handleExport = () => {
     const data = JSON.stringify(reference.templates, null, 2)
     const blob = new Blob([data], { type: 'application/json' })
@@ -164,19 +178,26 @@ export default function TemplateEditor({ reference, onTemplatesChange, onResetTe
             <tr><th>Name</th><th>Base ship</th><th className="num">Corv</th><th className="num">Fighter</th><th>Slots</th><th></th></tr>
           </thead>
           <tbody>
-            {reference.templates.map((t) => (
-              <tr key={t.key} className={editingKey === t.key ? 'editing' : ''}>
-                <td>{t.name}</td>
-                <td className="muted">{reference.shipByKey.get(t.baseShipKey)?.name ?? t.baseShipKey}</td>
-                <td className="num">{t.corvSlots}</td>
-                <td className="num">{t.fighterSlots}</td>
-                <td className="muted">{Object.entries(t.slots).map(([s, m]) => `${s}: ${m}`).join(' · ') || '—'}</td>
-                <td>
-                  <button className="small" onClick={() => startEdit(t)}>Edit</button>
-                  <button className="small danger" onClick={() => handleDelete(t.key)}>×</button>
-                </td>
-              </tr>
-            ))}
+            {reference.templates.map((t) => {
+              const totals = liveTotals(t)
+              const missing = Object.values(t.slots).filter((m) => !reference.moduleByName.has(m))
+              return (
+                <tr key={t.key} className={editingKey === t.key ? 'editing' : ''}>
+                  <td>
+                    {t.name}
+                    {missing.length > 0 && <span className="warn" title={`Missing module: ${missing.join(', ')}`}> ⚠</span>}
+                  </td>
+                  <td className="muted">{reference.shipByKey.get(t.baseShipKey)?.name ?? t.baseShipKey}</td>
+                  <td className="num">{totals.corv}</td>
+                  <td className="num">{totals.ftr}</td>
+                  <td className="muted">{Object.entries(t.slots).map(([s, m]) => `${s}: ${m}`).join(' · ') || '—'}</td>
+                  <td>
+                    <button className="small" onClick={() => startEdit(t)}>Edit</button>
+                    <button className="small danger" onClick={() => handleDelete(t.key)}>×</button>
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
