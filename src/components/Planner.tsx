@@ -70,6 +70,10 @@ export default function Planner({ reference, plan, setPlan }: Props) {
     reference.shipByKey.get(key)?.name ?? reference.templateByKey.get(key)?.name ?? key
   const aircraftFor = (key: string, kind: 'ship' | 'template') =>
     plan.aircraft.filter((a) => a.carrierKey === key && a.carrierKind === kind)
+  const copiesOf = (key: string, kind: 'ship' | 'template') =>
+    plan.units.filter((u) => u.unitKey === key && u.unitKind === kind).reduce((s, u) => s + u.count, 0)
+  // Aircraft can only be loaded into carriers that actually have copies fielded.
+  const fieldedCarriers = carriers.filter((c) => copiesOf(c.key, c.kind) > 0)
 
   // Aggregate hangar usage across the whole fleet (corvettes and fighters separately).
   const aircraftByHangar = new Map<string, AircraftAssignment[]>()
@@ -100,6 +104,24 @@ export default function Planner({ reference, plan, setPlan }: Props) {
 
   const updateUnit = (id: string, patch: Partial<FleetUnit>) =>
     setPlan((p) => ({ ...p, units: p.units.map((u) => (u.id === id ? { ...u, ...patch } : u)) }))
+  const onCountChange = (id: string, value: number) => {
+    const count = Math.max(0, value)
+    const u = plan.units.find((x) => x.id === id)
+    updateUnit(id, { count })
+    // 0 copies = the ship isn't fielded: clear its hangars too.
+    if (u && count === 0 && u.count > 0) {
+      const removed = aircraftFor(u.unitKey, u.unitKind)
+      if (removed.length > 0) {
+        setPlan((p) => ({
+          ...p,
+          aircraft: p.aircraft.filter((a) => !(a.carrierKey === u.unitKey && a.carrierKind === u.unitKind)),
+        }))
+        showToast(
+          `Set ${unitLabel(u.unitKey)} to 0 copies — cleared ${removed.length} aircraft from its hangar${removed.length > 1 ? 's' : ''}`,
+        )
+      }
+    }
+  }
   const addUnit = (side: Side) =>
     setPlan((p) => ({
       ...p,
@@ -237,9 +259,9 @@ export default function Planner({ reference, plan, setPlan }: Props) {
                 <td>
                   <input
                     type="number"
-                    min={1}
+                    min={0}
                     value={u.count}
-                    onChange={(e) => updateUnit(u.id, { count: Math.max(1, Number(e.target.value) || 1) })}
+                    onChange={(e) => onCountChange(u.id, Number(e.target.value) || 0)}
                   />
                 </td>
                 <td className="num">{cp != null ? cp * u.count : ''}</td>
@@ -287,14 +309,12 @@ export default function Planner({ reference, plan, setPlan }: Props) {
       <div className="plan-cols">
         <div className="panel">
           <h3>Aircraft assignment</h3>
-          {carriers.length === 0 ? (
+          {fieldedCarriers.length === 0 ? (
           <p className="muted">Field a carrier (ship or template with hangars) in the fleet to assign aircraft.</p>
         ) : (
           <div>
-            {carriers.map((c) => {
-              const copies = plan.units
-                .filter((u) => u.unitKey === c.key && u.unitKind === c.kind)
-                .reduce((s, u) => s + u.count, 0)
+            {fieldedCarriers.map((c) => {
+              const copies = copiesOf(c.key, c.kind)
               return (
                 <div key={`${c.key}|${c.kind}`} style={{ marginBottom: 14 }}>
                   <div style={{ marginBottom: 6 }}>
