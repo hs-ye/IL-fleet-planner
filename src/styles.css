@@ -88,6 +88,21 @@ button.danger:hover { border-color: var(--red); color: var(--red); }
 .sort-btn:hover { color: var(--accent); }
 th.num .sort-btn { text-align: right; }
 
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--panel2);
+  border: 1px solid var(--accent);
+  color: var(--text);
+  padding: 9px 16px;
+  border-radius: 6px;
+  z-index: 100;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  font-size: 13px;
+}
+
 .data-table { max-height: 420px; overflow: auto; }
 .data-table th { position: sticky; top: 0; background: var(--panel); z-index: 1; }
 

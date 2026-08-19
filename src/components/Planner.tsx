@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import type { FleetPlan, FleetUnit, AircraftAssignment, Side, Row } from '../types'
 import type { Reference } from '../reference'
@@ -59,6 +59,18 @@ export default function Planner({ reference, plan, setPlan }: Props) {
     return cmp * sort.dir
   })
 
+  const [toast, setToast] = useState<string | null>(null)
+  const toastTimer = useRef<number | undefined>(undefined)
+  const showToast = (msg: string) => {
+    setToast(msg)
+    window.clearTimeout(toastTimer.current)
+    toastTimer.current = window.setTimeout(() => setToast(null), 4000)
+  }
+  const unitLabel = (key: string) =>
+    reference.shipByKey.get(key)?.name ?? reference.templateByKey.get(key)?.name ?? key
+  const aircraftFor = (key: string, kind: 'ship' | 'template') =>
+    plan.aircraft.filter((a) => a.carrierKey === key && a.carrierKind === kind)
+
   // Aggregate hangar usage across the whole fleet (corvettes and fighters separately).
   const aircraftByHangar = new Map<string, AircraftAssignment[]>()
   for (const a of plan.aircraft) {
@@ -93,8 +105,22 @@ export default function Planner({ reference, plan, setPlan }: Props) {
       ...p,
       units: [...p.units, { id: uid(), side, unitKey: '', unitKind: 'ship', row: 'Mid', count: 1 }],
     }))
-  const removeUnit = (id: string) =>
-    setPlan((p) => ({ ...p, units: p.units.filter((u) => u.id !== id) }))
+  const removeUnit = (id: string) => {
+    const u = plan.units.find((x) => x.id === id)
+    if (!u) return
+    // Removing a ship also clears every aircraft assigned to its hangars.
+    const removed = aircraftFor(u.unitKey, u.unitKind)
+    setPlan({
+      ...plan,
+      units: plan.units.filter((x) => x.id !== id),
+      aircraft: plan.aircraft.filter((a) => !(a.carrierKey === u.unitKey && a.carrierKind === u.unitKind)),
+    })
+    if (removed.length > 0) {
+      showToast(
+        `Removed ${unitLabel(u.unitKey)} — cleared ${removed.length} aircraft from its hangar${removed.length > 1 ? 's' : ''}`,
+      )
+    }
+  }
 
   const updateAircraft = (id: string, patch: Partial<AircraftAssignment>) =>
     setPlan((p) => {
@@ -142,7 +168,22 @@ export default function Planner({ reference, plan, setPlan }: Props) {
     const patch: Partial<FleetUnit> = { unitKey: key, unitKind: u.kind }
     const drow = reference.unitDefaultRow(key)
     if (drow) patch.row = drow as Row
-    updateUnit(id, patch)
+    // Swapping the ship clears aircraft from the replaced ship's hangars.
+    const prev = plan.units.find((x) => x.id === id)
+    const removed = prev && prev.unitKey && prev.unitKey !== key ? aircraftFor(prev.unitKey, prev.unitKind) : []
+    setPlan({
+      ...plan,
+      units: plan.units.map((x) => (x.id === id ? { ...x, ...patch } : x)),
+      aircraft:
+        removed.length > 0 && prev
+          ? plan.aircraft.filter((a) => !(a.carrierKey === prev.unitKey && a.carrierKind === prev.unitKind))
+          : plan.aircraft,
+    })
+    if (removed.length > 0 && prev) {
+      showToast(
+        `Changed ${unitLabel(prev.unitKey)} — cleared ${removed.length} aircraft from its hangar${removed.length > 1 ? 's' : ''}`,
+      )
+    }
   }
 
   const mainUnits = plan.units.filter((u) => u.side === 'Main')
@@ -395,6 +436,8 @@ export default function Planner({ reference, plan, setPlan }: Props) {
           </table>
         )}
       </div>
+
+      {toast && <div className="toast">{toast}</div>}
     </div>
   )
 }
