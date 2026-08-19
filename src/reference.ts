@@ -15,7 +15,7 @@ const AIRCRAFT = new Set<string>(['Fighter', 'Corvette'])
 
 export async function loadReferenceData(): Promise<ReferenceData> {
   const fetchJson = async (name: string): Promise<unknown> => {
-    const r = await fetch(`/reference-data/${name}.json`)
+    const r = await fetch(`${import.meta.env.BASE_URL}reference-data/${name}.json`)
     if (!r.ok) throw new Error(`${name} HTTP ${r.status}`)
     return r.json()
   }
