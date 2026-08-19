@@ -235,7 +235,11 @@ export default function Planner({ reference, plan, setPlan }: Props) {
               <tr key={u.id}>
                 <td>
                   <ShipIcon
-                    shipKey={u.unitKey}
+                    shipKey={
+                      u.unitKind === 'template'
+                        ? reference.templateByKey.get(u.unitKey)?.baseShipKey ?? u.unitKey
+                        : u.unitKey
+                    }
                     classFallback={
                       u.unitKind === 'template'
                         ? reference.shipByKey.get(reference.templateByKey.get(u.unitKey)?.baseShipKey ?? '')?.class ?? null
