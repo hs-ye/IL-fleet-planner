@@ -52,6 +52,33 @@ export default function Planner({ reference, plan, setPlan }: Props) {
   }
   const buildCounts = [...countMap.values()].sort((x, y) => x.name.localeCompare(y.name))
 
+  // Aggregate hangar usage across the whole fleet (corvettes and fighters separately).
+  const aircraftByHangar = new Map<string, AircraftAssignment[]>()
+  for (const a of plan.aircraft) {
+    const gkey = `${a.carrierKey}|${a.carrierKind}|${a.hangarRef}`
+    const list = aircraftByHangar.get(gkey) ?? []
+    list.push(a)
+    aircraftByHangar.set(gkey, list)
+  }
+  let corvCap = 0
+  let ftrCap = 0
+  let corvAssigned = 0
+  let ftrAssigned = 0
+  for (const c of carriers) {
+    const copies = plan.units
+      .filter((u) => u.unitKey === c.key && u.unitKind === c.kind)
+      .reduce((s, u) => s + u.count, 0)
+    for (const h of c.hangars) {
+      corvCap += h.corvCapacity * copies
+      ftrCap += h.fighterCapacity * copies
+      for (const e of aircraftByHangar.get(`${c.key}|${c.kind}|${h.ref}`) ?? []) {
+        const ac = reference.shipByKey.get(e.aircraftKey)
+        if (ac?.class === 'Corvette') corvAssigned += e.count
+        else if (ac?.class === 'Fighter') ftrAssigned += e.count
+      }
+    }
+  }
+
   const updateUnit = (id: string, patch: Partial<FleetUnit>) =>
     setPlan((p) => ({ ...p, units: p.units.map((u) => (u.id === id ? { ...u, ...patch } : u)) }))
   const addUnit = (side: Side) =>
@@ -314,6 +341,20 @@ export default function Planner({ reference, plan, setPlan }: Props) {
             {issues.map((iss, i) => (
               <div key={i} className={`issue ${iss.level}`}>{iss.message}</div>
             ))}
+          </div>
+        )}
+        <h4 style={{ marginTop: 16, marginBottom: 6 }}>
+          Hangar usage{' '}
+          <span className="muted" style={{ fontWeight: 400, fontSize: 12 }}>
+            — filled / total slots across all carriers
+          </span>
+        </h4>
+        {carriers.length === 0 ? (
+          <p className="muted">No carriers in the fleet.</p>
+        ) : (
+          <div className="totals" style={{ margin: '6px 0 0' }}>
+            <span>Corvettes: <b className={corvAssigned > corvCap ? 'over' : ''}>{corvAssigned}/{corvCap}</b></span>
+            <span>Fighters: <b className={ftrAssigned > ftrCap ? 'over' : ''}>{ftrAssigned}/{ftrCap}</b></span>
           </div>
         )}
         <h4 style={{ marginTop: 16, marginBottom: 6 }}>
