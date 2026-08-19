@@ -79,6 +79,10 @@ button.danger:hover { border-color: var(--red); color: var(--red); }
 .fleet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 @media (max-width: 860px) { .fleet-grid { grid-template-columns: 1fr; } }
 
+/* Aircraft assignment + Validation sit side-by-side on wide screens, stacked otherwise. */
+.plan-cols { display: grid; grid-template-columns: 1fr; gap: 14px; align-items: start; }
+@media (min-width: 860px) { .plan-cols { grid-template-columns: 1fr 1fr; } }
+
 .hangar-box { border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; background: var(--panel2); }
 .hangar-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 6px; font-weight: 600; }
 .hangar-counter { color: var(--muted); font-size: 12px; font-weight: 400; white-space: nowrap; }

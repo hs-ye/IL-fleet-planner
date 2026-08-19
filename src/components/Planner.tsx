@@ -284,9 +284,10 @@ export default function Planner({ reference, plan, setPlan }: Props) {
         {renderFleet('RF', rfUnits, rfCp)}
       </div>
 
-      <div className="panel">
-        <h3>Aircraft assignment</h3>
-        {carriers.length === 0 ? (
+      <div className="plan-cols">
+        <div className="panel">
+          <h3>Aircraft assignment</h3>
+          {carriers.length === 0 ? (
           <p className="muted">Field a carrier (ship or template with hangars) in the fleet to assign aircraft.</p>
         ) : (
           <div>
@@ -435,6 +436,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
             </tbody>
           </table>
         )}
+      </div>
       </div>
 
       {toast && <div className="toast">{toast}</div>}
