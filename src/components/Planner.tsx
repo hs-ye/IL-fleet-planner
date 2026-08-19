@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import type { FleetPlan, FleetUnit, AircraftAssignment, Side, Row } from '../types'
 import type { Reference } from '../reference'
@@ -28,29 +29,35 @@ export default function Planner({ reference, plan, setPlan }: Props) {
 
   // Build-limit counter: total copies per base:variant (ships + templates via their
   // base ship, aircraft from hangar assignments). Display only — no validation.
-  const countMap = new Map<string, { key: string; name: string; count: number; aircraft: boolean }>()
-  const bumpCount = (key: string, name: string, n: number, aircraft: boolean) => {
+  const countMap = new Map<string, { key: string; name: string; class: string; count: number }>()
+  const bumpCount = (key: string, name: string, cls: string, n: number) => {
     const cur = countMap.get(key)
-    if (cur) {
-      cur.count += n
-      cur.aircraft = cur.aircraft || aircraft
-    } else {
-      countMap.set(key, { key, name, count: n, aircraft })
-    }
+    if (cur) cur.count += n
+    else countMap.set(key, { key, name, class: cls, count: n })
   }
   for (const u of plan.units) {
     if (!u.unitKey) continue
     const tpl = u.unitKind === 'template' ? reference.templateByKey.get(u.unitKey) : undefined
     const key = tpl ? tpl.baseShipKey : u.unitKey
     const ship = reference.shipByKey.get(key)
-    bumpCount(key, ship?.name ?? tpl?.name ?? u.unitKey, u.count, false)
+    bumpCount(key, ship?.name ?? tpl?.name ?? u.unitKey, ship?.class ?? '—', u.count)
   }
   for (const a of plan.aircraft) {
     if (!a.aircraftKey) continue
     const ship = reference.shipByKey.get(a.aircraftKey)
-    bumpCount(a.aircraftKey, ship?.name ?? a.aircraftKey, a.count, true)
+    bumpCount(a.aircraftKey, ship?.name ?? a.aircraftKey, ship?.class ?? '—', a.count)
   }
-  const buildCounts = [...countMap.values()].sort((x, y) => x.name.localeCompare(y.name))
+  const buildCounts = [...countMap.values()]
+  const [sort, setSort] = useState<{ col: 'name' | 'key' | 'class' | 'count'; dir: 1 | -1 }>({ col: 'name', dir: 1 })
+  const toggleSort = (col: 'name' | 'key' | 'class' | 'count') =>
+    setSort((s) => (s.col === col ? { col, dir: s.dir === 1 ? -1 : 1 } : { col, dir: 1 }))
+  const sortArrow = (col: 'name' | 'key' | 'class' | 'count') => (sort.col === col ? (sort.dir === 1 ? ' ▲' : ' ▼') : '')
+  const sortedCounts = [...buildCounts].sort((a, b) => {
+    const va = a[sort.col]
+    const vb = b[sort.col]
+    const cmp = typeof va === 'string' ? va.localeCompare(vb as string) : (va as number) - (vb as number)
+    return cmp * sort.dir
+  })
 
   // Aggregate hangar usage across the whole fleet (corvettes and fighters separately).
   const aircraftByHangar = new Map<string, AircraftAssignment[]>()
@@ -368,13 +375,19 @@ export default function Planner({ reference, plan, setPlan }: Props) {
         ) : (
           <table>
             <thead>
-              <tr><th>Unit</th><th>Key</th><th className="num">Copies</th></tr>
+              <tr>
+                <th><button className="sort-btn" onClick={() => toggleSort('name')}>Unit{sortArrow('name')}</button></th>
+                <th><button className="sort-btn" onClick={() => toggleSort('key')}>Key{sortArrow('key')}</button></th>
+                <th><button className="sort-btn" onClick={() => toggleSort('class')}>Class{sortArrow('class')}</button></th>
+                <th className="num"><button className="sort-btn" onClick={() => toggleSort('count')}>Copies{sortArrow('count')}</button></th>
+              </tr>
             </thead>
             <tbody>
-              {buildCounts.map((c) => (
+              {sortedCounts.map((c) => (
                 <tr key={c.key}>
-                  <td>{c.name}{c.aircraft && <span className="tag">aircraft</span>}</td>
+                  <td>{c.name}</td>
                   <td className="muted">{c.key}</td>
+                  <td>{c.class}</td>
                   <td className="num">{c.count}</td>
                 </tr>
               ))}
