@@ -10,6 +10,8 @@ import type {
   Size,
 } from './types'
 
+const SUPERCLASS = new Set<string>(['Battlecruiser', 'Carrier', 'Auxiliary', 'Battleship'])
+
 export async function loadReferenceData(): Promise<ReferenceData> {
   const fetchJson = async (name: string): Promise<unknown> => {
     const r = await fetch(`/reference-data/${name}.json`)
@@ -71,14 +73,16 @@ export class Reference {
   unitList(): { key: string; label: string; kind: 'ship' | 'template' }[] {
     const nameCount = new Map<string, number>()
     for (const s of this.ships) nameCount.set(s.name, (nameCount.get(s.name) ?? 0) + 1)
-    const ships = this.ships.map((s) => {
-      const dup = (nameCount.get(s.name) ?? 0) > 1
-      return {
-        key: s.key,
-        label: dup && s.variant ? `${s.name} [${s.variant}]` : s.name,
-        kind: 'ship' as const,
-      }
-    })
+    const ships = this.ships
+      .filter((s) => !SUPERCLASS.has(s.class))
+      .map((s) => {
+        const dup = (nameCount.get(s.name) ?? 0) > 1
+        return {
+          key: s.key,
+          label: dup && s.variant ? `${s.name} [${s.variant}]` : s.name,
+          kind: 'ship' as const,
+        }
+      })
     const templates = this.templates.map((t) => ({ key: t.key, label: t.name, kind: 'template' as const }))
     return [...ships, ...templates]
   }
@@ -205,6 +209,19 @@ export function validatePlan(ref: Reference, plan: FleetPlan): ValidationIssue[]
   const rfTypes = new Set(rfUnits.map((u) => u.unitKey))
   if (rfTypes.size > plan.rfMaxShips)
     issues.push({ level: 'error', message: `RF has ${rfTypes.size} ship types (limit ${plan.rfMaxShips})` })
+
+  // Supercaps must be used via a template, not as a raw ship.
+  for (const u of plan.units) {
+    if (u.unitKind === 'ship') {
+      const cls = ref.unitClass(u.unitKey)
+      if (cls && SUPERCLASS.has(cls)) {
+        issues.push({
+          level: 'warning',
+          message: `Supercap "${ref.shipByKey.get(u.unitKey)?.name ?? u.unitKey}" should be used via a template, not as a raw ship`,
+        })
+      }
+    }
+  }
 
   const fleetCount = (key: string) =>
     plan.units.filter((u) => u.unitKey === key).reduce((a, u) => a + u.count, 0)

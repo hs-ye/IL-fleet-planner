@@ -53,15 +53,35 @@ export default function DataView({ reference, onShipsChange, onModulesChange, on
       { shipKey: '', slot: '', name: '', corvCapacity: 0, fighterCapacity: 0, hangarSize: null, effect: null },
     ])
 
+  const download = (filename: string, data: unknown) => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <div>
       <div className="toolbar">
         <button className={which === 'ships' ? 'primary' : ''} onClick={() => setWhich('ships')}>Ships ({reference.ships.length})</button>
         <button className={which === 'modules' ? 'primary' : ''} onClick={() => setWhich('modules')}>Modules ({reference.modules.length})</button>
         <span style={{ flexGrow: 1 }} />
-        {which === 'ships'
-          ? <button className="small" onClick={onResetShips}>Reset ships</button>
-          : <button className="small" onClick={onResetModules}>Reset modules</button>}
+        {which === 'ships' ? (
+          <>
+            <button className="small" onClick={() => download('ships.json', reference.ships)}>Export ships</button>
+            <button className="small" onClick={onResetShips}>Reset ships</button>
+          </>
+        ) : (
+          <>
+            <button className="small" onClick={() => download('modules.json', reference.modules)}>Export modules</button>
+            <button className="small" onClick={onResetModules}>Reset modules</button>
+          </>
+        )}
       </div>
 
       <div className="panel data-table">
