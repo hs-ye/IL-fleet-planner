@@ -26,6 +26,32 @@ export default function Planner({ reference, plan, setPlan }: Props) {
       ),
   )
 
+  // Build-limit counter: total copies per base:variant (ships + templates via their
+  // base ship, aircraft from hangar assignments). Display only — no validation.
+  const countMap = new Map<string, { key: string; name: string; count: number; aircraft: boolean }>()
+  const bumpCount = (key: string, name: string, n: number, aircraft: boolean) => {
+    const cur = countMap.get(key)
+    if (cur) {
+      cur.count += n
+      cur.aircraft = cur.aircraft || aircraft
+    } else {
+      countMap.set(key, { key, name, count: n, aircraft })
+    }
+  }
+  for (const u of plan.units) {
+    if (!u.unitKey) continue
+    const tpl = u.unitKind === 'template' ? reference.templateByKey.get(u.unitKey) : undefined
+    const key = tpl ? tpl.baseShipKey : u.unitKey
+    const ship = reference.shipByKey.get(key)
+    bumpCount(key, ship?.name ?? tpl?.name ?? u.unitKey, u.count, false)
+  }
+  for (const a of plan.aircraft) {
+    if (!a.aircraftKey) continue
+    const ship = reference.shipByKey.get(a.aircraftKey)
+    bumpCount(a.aircraftKey, ship?.name ?? a.aircraftKey, a.count, true)
+  }
+  const buildCounts = [...countMap.values()].sort((x, y) => x.name.localeCompare(y.name))
+
   const updateUnit = (id: string, patch: Partial<FleetUnit>) =>
     setPlan((p) => ({ ...p, units: p.units.map((u) => (u.id === id ? { ...u, ...patch } : u)) }))
   const addUnit = (side: Side) =>
@@ -292,6 +318,30 @@ export default function Planner({ reference, plan, setPlan }: Props) {
               <div key={i} className={`issue ${iss.level}`}>{iss.message}</div>
             ))}
           </div>
+        )}
+        <h4 style={{ marginTop: 16, marginBottom: 6 }}>
+          Build counts{' '}
+          <span className="muted" style={{ fontWeight: 400, fontSize: 12 }}>
+            — total copies per base:variant; check against in-game build limits
+          </span>
+        </h4>
+        {buildCounts.length === 0 ? (
+          <p className="muted">No units or aircraft in the fleet yet.</p>
+        ) : (
+          <table>
+            <thead>
+              <tr><th>Unit</th><th>Key</th><th className="num">Copies</th></tr>
+            </thead>
+            <tbody>
+              {buildCounts.map((c) => (
+                <tr key={c.key}>
+                  <td>{c.name}{c.aircraft && <span className="tag">aircraft</span>}</td>
+                  <td className="muted">{c.key}</td>
+                  <td className="num">{c.count}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </div>
