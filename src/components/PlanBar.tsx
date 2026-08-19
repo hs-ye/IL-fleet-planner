@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import type { FleetPlan } from '../types'
 import {
+  uid,
   newPlan,
   listSavedPlans,
   savePlanToStorage,
@@ -31,6 +32,15 @@ export default function PlanBar({ plan, setPlan }: Props) {
     if (p) setPlan(p)
   }
   const handleNew = () => setPlan(newPlan())
+  const handleSaveAs = () => {
+    const name = prompt('Save plan as:', plan.name)
+    if (!name || !name.trim()) return
+    // Clone the current plan under a new id + name, then keep editing the clone.
+    const clone: FleetPlan = { ...plan, id: uid(), name: name.trim() }
+    savePlanToStorage(clone)
+    refreshSaved()
+    setPlan(clone)
+  }
   const handleDelete = () => {
     deletePlanFromStorage(plan.id)
     refreshSaved()
@@ -63,6 +73,7 @@ export default function PlanBar({ plan, setPlan }: Props) {
         </select>
         <button onClick={handleNew}>New</button>
         <button className="primary" onClick={handleSave}>Save</button>
+        <button onClick={handleSaveAs}>Save as</button>
         <button className="small danger" onClick={handleDelete} disabled={!saved.some((s) => s.id === plan.id)}>
           Delete saved
         </button>
