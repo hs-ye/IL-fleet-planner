@@ -1780,6 +1780,45 @@
     "size": "Medium",
     "notes": null
   },
+    {
+    "key": "Thunderbolt V022:A",
+    "name": "Thunderbolt V022 Anti-Air",
+    "base": "Thunderbolt V022",
+    "variant": "A",
+    "class": "Fighter",
+    "cpCost": 1,
+    "defaultRow": null,
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": "Medium",
+    "notes": null
+  },
+  {
+    "key": "Thunderbolt V022:B",
+    "name": "Thunderbolt V022 Special",
+    "base": "Thunderbolt V022",
+    "variant": "B",
+    "class": "Fighter",
+    "cpCost": 1,
+    "defaultRow": null,
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": "Medium",
+    "notes": null
+  },
+  {
+    "key": "Thunderbolt V022:C",
+    "name": "Thunderbolt V022 Inteference",
+    "base": "Thunderbolt V022",
+    "variant": "C",
+    "class": "Fighter",
+    "cpCost": 1,
+    "defaultRow": null,
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": "Medium",
+    "notes": null
+  },
   {
     "key": "CV-T800:A",
     "name": "CV-T800",
@@ -2080,42 +2119,16 @@
     "notes": null
   },
   {
-    "key": "Thunderbolt V022:A",
-    "name": "Thunderbolt V022 Anti-Air",
-    "base": "Thunderbolt V022",
+    "key": "Shadow of the Somme:A",
+    "name": "Somme",
+    "base": "Shadow of the Somme",
     "variant": "A",
-    "class": "Fighter",
+    "class": "Corvette",
     "cpCost": 1,
     "defaultRow": null,
     "fixedCorvSlots": null,
     "fixedFighterSlots": null,
-    "size": "Medium",
-    "notes": null
-  },
-  {
-    "key": "Thunderbolt V022:B",
-    "name": "Thunderbolt V022 Special",
-    "base": "Thunderbolt V022",
-    "variant": "B",
-    "class": "Fighter",
-    "cpCost": 1,
-    "defaultRow": null,
-    "fixedCorvSlots": null,
-    "fixedFighterSlots": null,
-    "size": "Medium",
-    "notes": null
-  },
-  {
-    "key": "Thunderbolt V022:C",
-    "name": "Thunderbolt V022 Inteference",
-    "base": "Thunderbolt V022",
-    "variant": "C",
-    "class": "Fighter",
-    "cpCost": 1,
-    "defaultRow": null,
-    "fixedCorvSlots": null,
-    "fixedFighterSlots": null,
-    "size": "Medium",
+    "size": null,
     "notes": null
   }
 ]

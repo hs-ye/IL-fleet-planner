@@ -77,7 +77,6 @@ export interface FleetPlan {
   version: number
   id: string
   name: string
-  server: string
   fleetMaxCp: number
   rfMaxShips: number
   units: FleetUnit[]

@@ -5,6 +5,18 @@ export function uid(): string {
   return Math.random().toString(36).slice(2) + Date.now().toString(36)
 }
 
+export function newPlan(): FleetPlan {
+  return {
+    version: 1,
+    id: uid(),
+    name: 'New Plan',
+    fleetMaxCp: 300,
+    rfMaxShips: 5,
+    units: [],
+    aircraft: [],
+  }
+}
+
 export function serializePlan(plan: FleetPlan): string {
   const bytes = new TextEncoder().encode(JSON.stringify(plan))
   let bin = ''

@@ -214,8 +214,8 @@ export default function Planner({ reference, plan, setPlan }: Props) {
       <div className="panel">
         <h3>Plan settings</h3>
         <div className="config-grid">
-          <label>Server
-            <input type="text" value={plan.server} onChange={(e) => setConfig({ server: e.target.value })} />
+          <label>Plan name
+            <input type="text" value={plan.name} onChange={(e) => setConfig({ name: e.target.value })} />
           </label>
           <label>Fleet max CP
             <input type="number" min={10} step={10} value={plan.fleetMaxCp} onChange={(e) => setConfig({ fleetMaxCp: Number(e.target.value) || 0 })} />
