@@ -227,14 +227,18 @@ export function validatePlan(ref: Reference, plan: FleetPlan): ValidationIssue[]
   }
 
   for (const g of groups.values()) {
+    const carrierLabel =
+      g.carrierKind === 'template'
+        ? (ref.templateByKey.get(g.carrierKey)?.name ?? g.carrierKey)
+        : (ref.shipByKey.get(g.carrierKey)?.name ?? g.carrierKey)
     const inFleet = plan.units.some((u) => u.unitKey === g.carrierKey && u.unitKind === g.carrierKind)
     if (!inFleet) {
-      issues.push({ level: 'warning', message: `Aircraft assigned to "${g.carrierKey}" which isn't fielded in the fleet` })
+      issues.push({ level: 'warning', message: `Aircraft assigned to "${carrierLabel}" which isn't fielded in the fleet` })
       continue
     }
     const hangar = ref.carrierHangars(g.carrierKey, g.carrierKind).find((h) => h.ref === g.hangarRef)
     if (!hangar) {
-      issues.push({ level: 'error', message: `Hangar "${g.hangarRef}" not found on "${g.carrierKey}"` })
+      issues.push({ level: 'error', message: `Hangar "${g.hangarRef}" not found on "${carrierLabel}"` })
       continue
     }
     const copies = fleetCount(g.carrierKey)
@@ -246,15 +250,15 @@ export function validatePlan(ref: Reference, plan: FleetPlan): ValidationIssue[]
       if (ac.class === 'Corvette') {
         corvAssigned += e.count
         if (hangar.corvCapacity <= 0)
-          issues.push({ level: 'error', message: `Corvette "${ac.name}" assigned to a non-corvette hangar on "${g.carrierKey}"` })
+          issues.push({ level: 'error', message: `Corvette "${ac.name}" assigned to a non-corvette hangar on "${carrierLabel}"` })
       } else if (ac.class === 'Fighter') {
         fighterAssigned += e.count
         if (hangar.fighterCapacity <= 0) {
-          issues.push({ level: 'error', message: `Fighter "${ac.name}" assigned to a non-fighter hangar on "${g.carrierKey}"` })
+          issues.push({ level: 'error', message: `Fighter "${ac.name}" assigned to a non-fighter hangar on "${carrierLabel}"` })
         } else if (hangar.size && ac.size && SIZE_ORDER[ac.size] > SIZE_ORDER[hangar.size]) {
           issues.push({
             level: 'error',
-            message: `Fighter "${ac.name}" (${ac.size}) too large for ${hangar.size} hangar "${g.hangarRef}" on "${g.carrierKey}"`,
+            message: `Fighter "${ac.name}" (${ac.size}) too large for ${hangar.size} hangar "${g.hangarRef}" on "${carrierLabel}"`,
           })
         }
       }
@@ -262,9 +266,9 @@ export function validatePlan(ref: Reference, plan: FleetPlan): ValidationIssue[]
     const corvCap = hangar.corvCapacity * copies
     const ftrCap = hangar.fighterCapacity * copies
     if (corvAssigned > corvCap)
-      issues.push({ level: 'error', message: `Hangar "${g.hangarRef}" on "${g.carrierKey}": ${corvAssigned} corvettes over capacity ${corvCap}` })
+      issues.push({ level: 'error', message: `Hangar "${hangar.label}" on "${carrierLabel}": ${corvAssigned} corvettes over capacity ${corvCap}` })
     if (fighterAssigned > ftrCap)
-      issues.push({ level: 'error', message: `Hangar "${g.hangarRef}" on "${g.carrierKey}": ${fighterAssigned} fighters over capacity ${ftrCap}` })
+      issues.push({ level: 'error', message: `Hangar "${hangar.label}" on "${carrierLabel}": ${fighterAssigned} fighters over capacity ${ftrCap}` })
   }
 
   return issues
