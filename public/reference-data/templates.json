@@ -4,8 +4,8 @@
     "name": "Antotas Swordbearer - Default",
     "baseShipKey": "Antotas Swordbearer:A",
     "slots": {
-      "M": "AS - M1",
-      "A": "AS - A1"
+      "M": "Sword - M1",
+      "A": "Sword - A1"
     },
     "corvSlots": 0,
     "fighterSlots": 0
@@ -26,8 +26,8 @@
     "name": "Constantine the Great - Default",
     "baseShipKey": "Constantine the Great:A",
     "slots": {
-      "M": "CTG - M1",
-      "A": "CTG - A1"
+      "M": "CTG - M1 Ion Cannon",
+      "A": "CTG - A1 Missile Array"
     },
     "corvSlots": 0,
     "fighterSlots": 0
@@ -104,7 +104,7 @@
     "baseShipKey": "Shield of Plutus:A",
     "slots": {
       "M": "Plutus M1 - integrated Weapons",
-      "A": "Plutus A1 - Fortress Defense"
+      "A": "Plutus - A1 - Fortress Defense"
     },
     "corvSlots": 0,
     "fighterSlots": 0
@@ -136,7 +136,8 @@
     "name": "Thunderbolt Star - Default",
     "baseShipKey": "Thunderbolt Star:A",
     "slots": {
-      "M": "Thunderbolt M1 - Railgun"
+      "M": "TB M1 - Railgun",
+      "A": "TB A1 - Rapid fire Anti-ship"
     },
     "corvSlots": 0,
     "fighterSlots": 0

@@ -236,7 +236,7 @@
   {
     "shipKey": "Spear of Uranus:A",
     "slot": "B",
-    "name": "Spera B3 - Integrated Damage Control",
+    "name": "Spear B3 - Integrated Damage Control",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -380,7 +380,7 @@
   {
     "shipKey": "Constantine the Great:A",
     "slot": "M",
-    "name": "CTG - M1",
+    "name": "CTG - M1 Ion Cannon",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -398,7 +398,7 @@
   {
     "shipKey": "Constantine the Great:A",
     "slot": "A",
-    "name": "CTG - A1",
+    "name": "CTG - A1 Missile Array",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -407,7 +407,7 @@
   {
     "shipKey": "Constantine the Great:A",
     "slot": "A",
-    "name": "CTG - A2",
+    "name": "CTG - A2 Energy Missiles",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -533,7 +533,7 @@
   {
     "shipKey": "Eternal Storm:A",
     "slot": "C",
-    "name": "ES C1 -",
+    "name": "ES C1 - ",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -578,7 +578,7 @@
   {
     "shipKey": "Thunderbolt Star:A",
     "slot": "M",
-    "name": "Thunderbolt M1 - Railgun",
+    "name": "TB M1 - Railgun",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -587,7 +587,7 @@
   {
     "shipKey": "Thunderbolt Star:A",
     "slot": "M",
-    "name": "Thunderbolt M2 - Ion Cannon",
+    "name": "TB M2 - Ion Cannon",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -596,7 +596,7 @@
   {
     "shipKey": "Thunderbolt Star:A",
     "slot": "M",
-    "name": "Thunderbolt M3 - Energy Torpedo",
+    "name": "TB M3 - Energy Torpedo",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -614,7 +614,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "M",
-    "name": "SOP - M2",
+    "name": "Plutus - M2",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -623,7 +623,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "M",
-    "name": "SOP - M3",
+    "name": "Plutus - M3",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -632,7 +632,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "A",
-    "name": "Plutus A1 - Fortress Defense",
+    "name": "Plutus - A1 - Fortress Defense",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -641,7 +641,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "A",
-    "name": "SOP - A2",
+    "name": "Plutus - A2",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -650,7 +650,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "A",
-    "name": "SOP - A3",
+    "name": "Plutus - A3",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -659,7 +659,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "B",
-    "name": "SOP - B1",
+    "name": "Plutus - B1",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -668,7 +668,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "B",
-    "name": "Plutus B2 - Additional Armour",
+    "name": "Plutus - B2 - Additional Armour",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -677,7 +677,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "B",
-    "name": "Plutus B3 - Anti-Missile System",
+    "name": "Plutus - B3 - Anti-Missile System",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -686,7 +686,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "C",
-    "name": "SOP - C1",
+    "name": "Plutus - C1",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -695,7 +695,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "C",
-    "name": "SOP - C2",
+    "name": "Plutus - C2",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -704,7 +704,7 @@
   {
     "shipKey": "Shield of Plutus:A",
     "slot": "C",
-    "name": "SOP - C3",
+    "name": "Plutus - C3",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -713,7 +713,7 @@
   {
     "shipKey": "Antotas Swordbearer:A",
     "slot": "M",
-    "name": "AS - M1",
+    "name": "Sword - M1",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -722,7 +722,7 @@
   {
     "shipKey": "Antotas Swordbearer:A",
     "slot": "M",
-    "name": "AS - M2",
+    "name": "Sword - M2",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -731,7 +731,7 @@
   {
     "shipKey": "Antotas Swordbearer:A",
     "slot": "A",
-    "name": "AS - A1",
+    "name": "Sword - A1",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -740,7 +740,7 @@
   {
     "shipKey": "Antotas Swordbearer:A",
     "slot": "A",
-    "name": "AS - A2",
+    "name": "Sword - A2",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -749,7 +749,7 @@
   {
     "shipKey": "Antotas Swordbearer:A",
     "slot": "A",
-    "name": "AS - A3",
+    "name": "Sword - A3",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -758,7 +758,7 @@
   {
     "shipKey": "Antotas Swordbearer:A",
     "slot": "B",
-    "name": "AS - B1",
+    "name": "Sword - B1",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -1129,7 +1129,7 @@
     "slot": "C",
     "name": "EH C1 - Fighter Hangar",
     "corvCapacity": 0,
-    "fighterCapacity": 3,
+    "fighterCapacity": 4,
     "hangarSize": "Large",
     "effect": null
   },
@@ -1137,7 +1137,7 @@
     "shipKey": "Eternal Heavens:A",
     "slot": "C",
     "name": "EH C2 - Corvette Hangar",
-    "corvCapacity": 3,
+    "corvCapacity": 4,
     "fighterCapacity": 0,
     "hangarSize": null,
     "effect": null
@@ -1146,6 +1146,96 @@
     "shipKey": "Eternal Heavens:A",
     "slot": "C",
     "name": "EH C3 - Repair UAV",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "A",
+    "name": "TB A1 - Rapid fire Anti-ship",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "A",
+    "name": "TB A2 - ",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "B",
+    "name": "TB B1 - Active Anti-air",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "B",
+    "name": "TB B2 - Range Anti-Air",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "C",
+    "name": "TB C1 -",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "C",
+    "name": "TB C2 - Fire Control Calibration",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "D",
+    "name": "TB D1 - ",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "D",
+    "name": "TB D2 -",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "E",
+    "name": "TB E1 -",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Thunderbolt Star:A",
+    "slot": "E",
+    "name": "TB E2 -",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,

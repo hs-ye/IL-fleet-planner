@@ -2078,5 +2078,44 @@
     "fixedFighterSlots": null,
     "size": null,
     "notes": null
+  },
+  {
+    "key": "Thunderbolt V022:A",
+    "name": "Thunderbolt V022 Anti-Air",
+    "base": "Thunderbolt V022",
+    "variant": "A",
+    "class": "Fighter",
+    "cpCost": 1,
+    "defaultRow": null,
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": "Medium",
+    "notes": null
+  },
+  {
+    "key": "Thunderbolt V022:B",
+    "name": "Thunderbolt V022 Special",
+    "base": "Thunderbolt V022",
+    "variant": "B",
+    "class": "Fighter",
+    "cpCost": 1,
+    "defaultRow": null,
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": "Medium",
+    "notes": null
+  },
+  {
+    "key": "Thunderbolt V022:C",
+    "name": "Thunderbolt V022 Inteference",
+    "base": "Thunderbolt V022",
+    "variant": "C",
+    "class": "Fighter",
+    "cpCost": 1,
+    "defaultRow": null,
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": "Medium",
+    "notes": null
   }
 ]
