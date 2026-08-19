@@ -15,7 +15,15 @@ export function serializePlan(plan: FleetPlan): string {
 export function deserializePlan(s: string): FleetPlan {
   const bin = atob(s.trim())
   const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0))
-  return JSON.parse(new TextDecoder().decode(bytes)) as FleetPlan
+  return normalizePlan(JSON.parse(new TextDecoder().decode(bytes)) as FleetPlan)
+}
+
+function normalizePlan(p: FleetPlan): FleetPlan {
+  if (p.fleetMaxCp === undefined) {
+    // Legacy plans stored separate main/rf budgets; the fleet CP is shared.
+    p.fleetMaxCp = (p as unknown as { mainMaxCp?: number }).mainMaxCp ?? 300
+  }
+  return p
 }
 
 const STORAGE_KEY = 'il-fleet-planner:plans'
@@ -47,7 +55,7 @@ export function loadPlanFromStorage(id: string): FleetPlan | null {
   const raw = localStorage.getItem(planKey(id))
   if (!raw) return null
   try {
-    return JSON.parse(raw) as FleetPlan
+    return normalizePlan(JSON.parse(raw) as FleetPlan)
   } catch {
     return null
   }

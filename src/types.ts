@@ -78,8 +78,7 @@ export interface FleetPlan {
   id: string
   name: string
   server: string
-  mainMaxCp: number
-  rfMaxCp: number
+  fleetMaxCp: number
   rfMaxShips: number
   units: FleetUnit[]
   aircraft: AircraftAssignment[]

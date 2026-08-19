@@ -211,10 +211,10 @@ export function validatePlan(ref: Reference, plan: FleetPlan): ValidationIssue[]
 
   const mainCp = sumCp(mainUnits)
   const rfCp = sumCp(rfUnits)
-  if (mainCp > plan.mainMaxCp)
-    issues.push({ level: 'error', message: `Main fleet CP ${mainCp} exceeds budget ${plan.mainMaxCp}` })
-  if (rfCp > plan.rfMaxCp)
-    issues.push({ level: 'error', message: `RF CP ${rfCp} exceeds budget ${plan.rfMaxCp}` })
+  if (mainCp > plan.fleetMaxCp)
+    issues.push({ level: 'error', message: `Main fleet CP ${mainCp} exceeds budget ${plan.fleetMaxCp}` })
+  if (rfCp > plan.fleetMaxCp)
+    issues.push({ level: 'error', message: `RF CP ${rfCp} exceeds budget ${plan.fleetMaxCp}` })
 
   const rfCopies = rfUnits.reduce((s, u) => s + u.count, 0)
   if (rfCopies > plan.rfMaxShips)

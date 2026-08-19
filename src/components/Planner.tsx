@@ -176,7 +176,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
       </table>
       <button className="small" onClick={() => addUnit(side)}>+ Add ship / template</button>
       <div className="totals" style={{ marginTop: 8 }}>
-        <span>CP: <b className={side === 'Main' ? (totalCp > plan.mainMaxCp ? 'over' : 'ok') : totalCp > plan.rfMaxCp ? 'over' : 'ok'}>{totalCp}</b> / {side === 'Main' ? plan.mainMaxCp : plan.rfMaxCp}</span>
+        <span>CP: <b className={totalCp > plan.fleetMaxCp ? 'over' : 'ok'}>{totalCp}</b> / {plan.fleetMaxCp}</span>
         {side === 'RF' && <span>Ship instances: <b className={rfCopies > plan.rfMaxShips ? 'over' : 'ok'}>{rfCopies}</b> / {plan.rfMaxShips}</span>}
       </div>
     </div>
@@ -190,11 +190,8 @@ export default function Planner({ reference, plan, setPlan }: Props) {
           <label>Server
             <input type="text" value={plan.server} onChange={(e) => setConfig({ server: e.target.value })} />
           </label>
-          <label>Main max CP
-            <input type="number" min={10} step={10} value={plan.mainMaxCp} onChange={(e) => setConfig({ mainMaxCp: Number(e.target.value) || 0 })} />
-          </label>
-          <label>RF max CP
-            <input type="number" min={10} step={10} value={plan.rfMaxCp} onChange={(e) => setConfig({ rfMaxCp: Number(e.target.value) || 0 })} />
+          <label>Fleet max CP
+            <input type="number" min={10} step={10} value={plan.fleetMaxCp} onChange={(e) => setConfig({ fleetMaxCp: Number(e.target.value) || 0 })} />
           </label>
           <label>RF max ship instances (1–9)
             <input type="number" min={1} max={9} value={plan.rfMaxShips} onChange={(e) => setConfig({ rfMaxShips: Math.min(9, Math.max(1, Number(e.target.value) || 1)) })} />
