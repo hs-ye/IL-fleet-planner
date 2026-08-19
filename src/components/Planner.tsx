@@ -115,7 +115,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
   const rfUnits = plan.units.filter((u) => u.side === 'RF')
   const mainCp = mainUnits.reduce((a, u) => a + (reference.unitCp(u.unitKey) ?? 0) * u.count, 0)
   const rfCp = rfUnits.reduce((a, u) => a + (reference.unitCp(u.unitKey) ?? 0) * u.count, 0)
-  const rfTypes = new Set(rfUnits.map((u) => u.unitKey)).size
+  const rfCopies = rfUnits.reduce((s, u) => s + u.count, 0)
   const combinedCp = mainCp + rfCp
 
   const setConfig = (patch: Partial<FleetPlan>) => setPlan((p) => ({ ...p, ...patch }))
@@ -177,7 +177,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
       <button className="small" onClick={() => addUnit(side)}>+ Add ship / template</button>
       <div className="totals" style={{ marginTop: 8 }}>
         <span>CP: <b className={side === 'Main' ? (totalCp > plan.mainMaxCp ? 'over' : 'ok') : totalCp > plan.rfMaxCp ? 'over' : 'ok'}>{totalCp}</b> / {side === 'Main' ? plan.mainMaxCp : plan.rfMaxCp}</span>
-        {side === 'RF' && <span>Ship types: <b className={rfTypes > plan.rfMaxShips ? 'over' : 'ok'}>{rfTypes}</b> / {plan.rfMaxShips}</span>}
+        {side === 'RF' && <span>Ship instances: <b className={rfCopies > plan.rfMaxShips ? 'over' : 'ok'}>{rfCopies}</b> / {plan.rfMaxShips}</span>}
       </div>
     </div>
   )
@@ -196,7 +196,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
           <label>RF max CP
             <input type="number" min={10} step={10} value={plan.rfMaxCp} onChange={(e) => setConfig({ rfMaxCp: Number(e.target.value) || 0 })} />
           </label>
-          <label>RF max ships (1–9)
+          <label>RF max ship instances (1–9)
             <input type="number" min={1} max={9} value={plan.rfMaxShips} onChange={(e) => setConfig({ rfMaxShips: Math.min(9, Math.max(1, Number(e.target.value) || 1)) })} />
           </label>
         </div>

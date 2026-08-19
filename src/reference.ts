@@ -216,9 +216,9 @@ export function validatePlan(ref: Reference, plan: FleetPlan): ValidationIssue[]
   if (rfCp > plan.rfMaxCp)
     issues.push({ level: 'error', message: `RF CP ${rfCp} exceeds budget ${plan.rfMaxCp}` })
 
-  const rfTypes = new Set(rfUnits.map((u) => u.unitKey))
-  if (rfTypes.size > plan.rfMaxShips)
-    issues.push({ level: 'error', message: `RF has ${rfTypes.size} ship types (limit ${plan.rfMaxShips})` })
+  const rfCopies = rfUnits.reduce((s, u) => s + u.count, 0)
+  if (rfCopies > plan.rfMaxShips)
+    issues.push({ level: 'error', message: `RF has ${rfCopies} ship instances (limit ${plan.rfMaxShips})` })
 
   // Supercaps must be used via a template; aircraft only belong in hangars.
   for (const u of plan.units) {
