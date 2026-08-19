@@ -107,6 +107,15 @@ th.num .sort-btn { text-align: right; }
   font-size: 13px;
 }
 
+.ship-icon {
+  vertical-align: middle;
+  border-radius: 4px;
+  margin-right: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px;
+}
+.class-icon { opacity: 0.85; }
+
 .data-table { max-height: 420px; overflow: auto; }
 .data-table th { position: sticky; top: 0; background: var(--panel); z-index: 1; }
 

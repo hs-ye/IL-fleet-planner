@@ -114,3 +114,5 @@ Notes:
   github.io deployment (and vice versa). Nothing is shared automatically.
 - A `docs/design.md` in the repo explains the architecture and design decisions behind the
   app.
+- Ship and class icons are from [Gravity Assist](https://github.com/kennething/gravity-assist)
+  (MIT, © Kenneth Ng) — see `public/ships/LICENSE.md`.

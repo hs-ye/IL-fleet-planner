@@ -3,6 +3,7 @@ import type { Dispatch, SetStateAction } from 'react'
 import type { FleetPlan, FleetUnit, AircraftAssignment, Side, Row } from '../types'
 import type { Reference } from '../reference'
 import { validatePlan } from '../reference'
+import ShipIcon from './ShipIcon'
 import { uid } from '../serialize'
 
 const ROWS: Row[] = ['Front', 'Mid', 'Back']
@@ -233,6 +234,14 @@ export default function Planner({ reference, plan, setPlan }: Props) {
             return (
               <tr key={u.id}>
                 <td>
+                  <ShipIcon
+                    shipKey={u.unitKey}
+                    classFallback={
+                      u.unitKind === 'template'
+                        ? reference.shipByKey.get(reference.templateByKey.get(u.unitKey)?.baseShipKey ?? '')?.class ?? null
+                        : reference.shipByKey.get(u.unitKey)?.class ?? null
+                    }
+                  />
                   <select
                     className="wide"
                     value={u.unitKey}
@@ -447,7 +456,10 @@ export default function Planner({ reference, plan, setPlan }: Props) {
             <tbody>
               {sortedCounts.map((c) => (
                 <tr key={c.key}>
-                  <td>{c.name}</td>
+                  <td>
+                    <ShipIcon shipKey={c.key} classFallback={c.class} />
+                    {c.name}
+                  </td>
                   <td className="muted">{c.key}</td>
                   <td>{c.class}</td>
                   <td className="num">{c.count}</td>
