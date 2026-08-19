@@ -19,6 +19,12 @@ export default function Planner({ reference, plan, setPlan }: Props) {
     kind === 'template'
       ? (reference.templateByKey.get(key)?.name ?? key)
       : (reference.shipByKey.get(key)?.name ?? key)
+  const orphanAircraft = plan.aircraft.filter(
+    (a) =>
+      !carriers.some(
+        (c) => c.key === a.carrierKey && c.kind === a.carrierKind && c.hangars.some((h) => h.ref === a.hangarRef),
+      ),
+  )
 
   const updateUnit = (id: string, patch: Partial<FleetUnit>) =>
     setPlan((p) => ({ ...p, units: p.units.map((u) => (u.id === id ? { ...u, ...patch } : u)) }))
@@ -31,15 +37,42 @@ export default function Planner({ reference, plan, setPlan }: Props) {
     setPlan((p) => ({ ...p, units: p.units.filter((u) => u.id !== id) }))
 
   const updateAircraft = (id: string, patch: Partial<AircraftAssignment>) =>
-    setPlan((p) => ({ ...p, aircraft: p.aircraft.map((a) => (a.id === id ? { ...a, ...patch } : a)) }))
-  const addAircraft = () =>
-    setPlan((p) => ({
-      ...p,
-      aircraft: [
-        ...p.aircraft,
-        { id: uid(), aircraftKey: '', carrierKey: '', carrierKind: 'ship', hangarRef: '', count: 1 },
-      ],
-    }))
+    setPlan((p) => {
+      const a = p.aircraft.find((x) => x.id === id)
+      if (!a || patch.aircraftKey === undefined || patch.aircraftKey === a.aircraftKey) {
+        return { ...p, aircraft: p.aircraft.map((x) => (x.id === id ? { ...x, ...patch } : x)) }
+      }
+      // Same model already in this hangar → merge counts instead of duplicating.
+      const dup = p.aircraft.find(
+        (x) =>
+          x.id !== id &&
+          x.aircraftKey === patch.aircraftKey &&
+          x.carrierKey === a.carrierKey &&
+          x.carrierKind === a.carrierKind &&
+          x.hangarRef === a.hangarRef,
+      )
+      if (dup) {
+        return {
+          ...p,
+          aircraft: p.aircraft
+            .filter((x) => x.id !== dup.id)
+            .map((x) => (x.id === id ? { ...x, aircraftKey: patch.aircraftKey as string, count: x.count + dup.count } : x)),
+        }
+      }
+      return { ...p, aircraft: p.aircraft.map((x) => (x.id === id ? { ...x, ...patch } : x)) }
+    })
+  const addAircraftToHangar = (carrierKey: string, carrierKind: 'ship' | 'template', hangarRef: string) =>
+    setPlan((p) => {
+      const pending = p.aircraft.some(
+        (a) =>
+          !a.aircraftKey && a.carrierKey === carrierKey && a.carrierKind === carrierKind && a.hangarRef === hangarRef,
+      )
+      if (pending) return p
+      return {
+        ...p,
+        aircraft: [...p.aircraft, { id: uid(), aircraftKey: '', carrierKey, carrierKind, hangarRef, count: 1 }],
+      }
+    })
   const removeAircraft = (id: string) =>
     setPlan((p) => ({ ...p, aircraft: p.aircraft.filter((a) => a.id !== id) }))
 
@@ -158,70 +191,93 @@ export default function Planner({ reference, plan, setPlan }: Props) {
         {carriers.length === 0 ? (
           <p className="muted">Field a carrier (ship or template with hangars) in the fleet to assign aircraft.</p>
         ) : (
-          <table>
-            <thead>
-              <tr><th>Aircraft</th><th>Carrier</th><th>Hangar</th><th className="num">Count</th><th></th></tr>
-            </thead>
-            <tbody>
-              {plan.aircraft.map((a) => {
-                const carrier = carriers.find((c) => c.key === a.carrierKey && c.kind === a.carrierKind)
-                return (
-                  <tr key={a.id}>
-                    <td>
-                      <select className="wide" value={a.aircraftKey} onChange={(e) => updateAircraft(a.id, { aircraftKey: e.target.value })}>
-                        <option value="">— aircraft —</option>
-                        {reference.aircraft().map((s) => (
-                          <option key={s.key} value={s.key}>{s.name}</option>
+          <div>
+            {carriers.map((c) => {
+              const copies = plan.units
+                .filter((u) => u.unitKey === c.key && u.unitKind === c.kind)
+                .reduce((s, u) => s + u.count, 0)
+              return (
+                <div key={`${c.key}|${c.kind}`} style={{ marginBottom: 14 }}>
+                  <div style={{ marginBottom: 6 }}>
+                    <strong>{carrierName(c.key, c.kind)}</strong>
+                    {copies > 1 && <span className="muted"> ×{copies}</span>}
+                  </div>
+                  {c.hangars.map((h) => {
+                    const entries = plan.aircraft.filter(
+                      (a) => a.carrierKey === c.key && a.carrierKind === c.kind && a.hangarRef === h.ref,
+                    )
+                    const corvAssigned = entries
+                      .filter((e) => reference.shipByKey.get(e.aircraftKey)?.class === 'Corvette')
+                      .reduce((s, e) => s + e.count, 0)
+                    const ftrAssigned = entries
+                      .filter((e) => reference.shipByKey.get(e.aircraftKey)?.class === 'Fighter')
+                      .reduce((s, e) => s + e.count, 0)
+                    const corvCap = h.corvCapacity * copies
+                    const ftrCap = h.fighterCapacity * copies
+                    const pending = entries.some((e) => !e.aircraftKey)
+                    return (
+                      <div key={h.ref} className="hangar-box">
+                        <div className="hangar-head">
+                          <span>{h.label}</span>
+                          <span className="hangar-counter">
+                            {corvCap > 0 && (
+                              <span className={corvAssigned > corvCap ? 'over' : ''}>
+                                {corvAssigned}/{corvCap} corvettes
+                              </span>
+                            )}
+                            {corvCap > 0 && ftrCap > 0 && <span className="muted"> · </span>}
+                            {ftrCap > 0 && (
+                              <span className={ftrAssigned > ftrCap ? 'over' : ''}>
+                                {ftrAssigned}/{ftrCap} fighters{h.size ? ` (${h.size})` : ''}
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                        {entries.map((e) => (
+                          <div key={e.id} className="hangar-entry">
+                            <select
+                              value={e.aircraftKey}
+                              onChange={(ev) => updateAircraft(e.id, { aircraftKey: ev.target.value })}
+                            >
+                              <option value="">— aircraft —</option>
+                              {reference.aircraftForHangar(h).map((s) => (
+                                <option key={s.key} value={s.key}>{s.name}</option>
+                              ))}
+                            </select>
+                            <input
+                              type="number"
+                              min={1}
+                              value={e.count}
+                              style={{ maxWidth: 64 }}
+                              onChange={(ev) => updateAircraft(e.id, { count: Math.max(1, Number(ev.target.value) || 1) })}
+                            />
+                            <button className="small danger" onClick={() => removeAircraft(e.id)}>×</button>
+                          </div>
                         ))}
-                      </select>
-                    </td>
-                    <td>
-                      <select className="wide" value={a.carrierKey} onChange={(e) => {
-                        const c = carriers.find((x) => x.key === e.target.value)
-                        updateAircraft(a.id, {
-                          carrierKey: e.target.value,
-                          carrierKind: c?.kind ?? 'ship',
-                          hangarRef: c && c.hangars.length > 0 ? c.hangars[0].ref : '',
-                        })
-                      }}>
-                        <option value="">— carrier —</option>
-                        {carriers.map((c) => (
-                          <option key={`${c.key}|${c.kind}`} value={c.key}>{carrierName(c.key, c.kind)}</option>
-                        ))}
-                      </select>
-                    </td>
-                    <td>
-                      <select value={a.hangarRef} onChange={(e) => updateAircraft(a.id, { hangarRef: e.target.value })}>
-                        <option value="">— hangar —</option>
-                        {(carrier?.hangars ?? []).map((h) => (
-                          <option key={h.ref} value={h.ref}>{h.label}</option>
-                        ))}
-                      </select>
-                    </td>
-                    <td>
-                      <input type="number" min={1} value={a.count} onChange={(e) => updateAircraft(a.id, { count: Math.max(1, Number(e.target.value) || 1) })} />
-                    </td>
-                    <td><button className="small danger" onClick={() => removeAircraft(a.id)}>×</button></td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        )}
-        <button className="small" style={{ marginTop: 6 }} onClick={addAircraft} disabled={carriers.length === 0}>+ Add aircraft</button>
-
-        {carriers.length > 0 && (
-          <div style={{ marginTop: 10 }}>
-            {carriers.map((c) => (
-              <div key={`${c.key}|${c.kind}`} style={{ margin: '4px 0' }}>
-                <span className="muted">{carrierName(c.key, c.kind)}:</span>{' '}
-                {c.hangars.map((h) => (
-                  <span key={h.ref} className="carry-cap" style={{ marginRight: 12 }}>
-                    {h.ref} → {h.corvCapacity > 0 ? `${h.corvCapacity} corv` : ''}{h.corvCapacity > 0 && h.fighterCapacity > 0 ? ' + ' : ''}{h.fighterCapacity > 0 ? `${h.fighterCapacity} fighter${h.size ? ` (${h.size})` : ''}` : ''}
+                        <button
+                          className="small"
+                          onClick={() => addAircraftToHangar(c.key, c.kind, h.ref)}
+                          disabled={pending}
+                        >
+                          + Add aircraft
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            })}
+            {orphanAircraft.length > 0 && (
+              <div className="muted" style={{ marginTop: 8, fontSize: 12 }}>
+                <div>Assignments for carriers/hangars no longer in the fleet:</div>
+                {orphanAircraft.map((a) => (
+                  <span key={a.id} style={{ marginRight: 8 }}>
+                    {reference.shipByKey.get(a.aircraftKey)?.name ?? a.aircraftKey} ×{a.count}
+                    <button className="small danger" onClick={() => removeAircraft(a.id)}>×</button>
                   </span>
                 ))}
               </div>
-            ))}
+            )}
           </div>
         )}
       </div>

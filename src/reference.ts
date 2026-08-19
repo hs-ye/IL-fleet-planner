@@ -121,6 +121,15 @@ export class Reference {
     return this.ships.filter((s) => s.class === 'Fighter' || s.class === 'Corvette')
   }
 
+  /** Aircraft that fit a given hangar (corvette dock, fighter hangar, or mixed). */
+  aircraftForHangar(h: Hangar): Ship[] {
+    const fits = (s: Ship) =>
+      s.class === 'Fighter' ? (!h.size || !s.size || SIZE_ORDER[s.size] <= SIZE_ORDER[h.size]) : true
+    if (h.kind === 'corvette') return this.ships.filter((s) => s.class === 'Corvette')
+    if (h.kind === 'fighter') return this.ships.filter((s) => s.class === 'Fighter' && fits(s))
+    return this.ships.filter((s) => (s.class === 'Corvette' || s.class === 'Fighter') && fits(s))
+  }
+
   carrierHangars(key: string, kind: 'ship' | 'template'): Hangar[] {
     if (kind === 'ship') {
       const ship = this.shipByKey.get(key)
