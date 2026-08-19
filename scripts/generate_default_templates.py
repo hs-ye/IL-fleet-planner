@@ -4,6 +4,9 @@ Rule: every supercap comes with its M1 and A1 modules unlocked by default;
 all other modules must be unlocked. A default template = base ship + M1 in
 slot M + A1 in slot A.
 
+Aux ships (FSV830 / Ediacaran) have no M/A slots in their base config, so
+they use an explicit override of the modules the game ships them with.
+
 Run:  uv run python scripts/generate_default_templates.py
 """
 import json
@@ -29,25 +32,26 @@ def slot_id(name: str, slot: str):
     return int(m.group(1)) if m else None
 
 
+# Ships whose default loadout isn't M1+A1 (Aux ships with different base modules).
+BASE_OVERRIDES = {
+    "FSV830:A": [("B", 1), ("D", 1)],
+    "Ediacaran:A": [("M", 1), ("B", 1), ("D", 1)],
+}
+
 templates = []
 missing = []
 for key, mods in by_ship.items():
-    m1 = next((m for m in mods if m["slot"] == "M" and slot_id(m["name"], "M") == 1), None)
-    a1 = next((m for m in mods if m["slot"] == "A" and slot_id(m["name"], "A") == 1), None)
-
     slots, corv, ftr, missed = {}, 0, 0, []
-    if m1:
-        slots["M"] = m1["name"]
-        corv += m1["corvCapacity"]
-        ftr += m1["fighterCapacity"]
-    else:
-        missed.append("M1")
-    if a1:
-        slots["A"] = a1["name"]
-        corv += a1["corvCapacity"]
-        ftr += a1["fighterCapacity"]
-    else:
-        missed.append("A1")
+    override = BASE_OVERRIDES.get(key)
+    picks = override or [("M", 1), ("A", 1)]
+    for slot, idx in picks:
+        mod = next((m for m in mods if m["slot"] == slot and slot_id(m["name"], slot) == idx), None)
+        if mod:
+            slots[slot] = mod["name"]
+            corv += mod["corvCapacity"]
+            ftr += mod["fighterCapacity"]
+        else:
+            missed.append(f"{slot}{idx}")
 
     display = name_by_key.get(key, key)
     templates.append({

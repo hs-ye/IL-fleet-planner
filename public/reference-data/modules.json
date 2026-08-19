@@ -1240,5 +1240,221 @@
     "fighterCapacity": 0,
     "hangarSize": null,
     "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "A",
+    "name": "FSV830 A1 - Engineering Repair System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "A",
+    "name": "FSV830 A2 - Strategic Resource Storage System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "B",
+    "name": "FSV830 B1 - Frigate Production System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "B",
+    "name": "FSV830 B2 - Corvette Production System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "B",
+    "name": "FSV830 B3 - Fighter Production System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "C",
+    "name": "FSV830 C1 - Aircraft System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "C",
+    "name": "FSV830 C2 - Repair UAV System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "D",
+    "name": "FSV830 D1 - Early Warning Command System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "D",
+    "name": "FSV830 D2 - Coordinated Command System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "D",
+    "name": "FSV830 D3 - Jamming Command System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "E",
+    "name": "FSV830 E1 - Area Anti-Air System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "FSV830:A",
+    "slot": "E",
+    "name": "FSV830 E2 - Corvette Dock",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "M",
+    "name": "Ediacaran M1 - Bastion Heavy Cannon System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "M",
+    "name": "Ediacaran M2 - Bastion Siege Railgun System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "B",
+    "name": "Ediacaran B1 - Frigate Production System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "B",
+    "name": "Ediacaran B2 - Corvette Production System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "B",
+    "name": "Ediacaran B3 - Destroyer Production System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "C",
+    "name": "Ediacaran C1 - Large Carrier System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "C",
+    "name": "Ediacaran C2 - Corvette Dock",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "D",
+    "name": "Ediacaran D1 - Tundra Interceptor UAV System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "D",
+    "name": "Ediacaran D2 - Hummingbird Fire Recon System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "D",
+    "name": "Ediacaran D3 - Colossus Escort UAV System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "E",
+    "name": "Ediacaran E1 - Heavy Additional Armor System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Ediacaran:A",
+    "slot": "E",
+    "name": "Ediacaran E2 - Nano Self-Repair System",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
   }
 ]

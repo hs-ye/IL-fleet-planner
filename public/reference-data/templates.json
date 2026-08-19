@@ -44,6 +44,18 @@
     "fighterSlots": 0
   },
   {
+    "key": "Ediacaran - Default",
+    "name": "Ediacaran - Default",
+    "baseShipKey": "Ediacaran:A",
+    "slots": {
+      "M": "Ediacaran M1 - Bastion Heavy Cannon System",
+      "B": "Ediacaran B1 - Frigate Production System",
+      "D": "Ediacaran D1 - Tundra Interceptor UAV System"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
     "key": "Eternal Heavens - Default",
     "name": "Eternal Heavens - Default",
     "baseShipKey": "Eternal Heavens:A",
@@ -61,6 +73,17 @@
     "slots": {
       "M": "ES M1 - Ion Cannon",
       "A": "ES A1 - Projectile Launcher"
+    },
+    "corvSlots": 0,
+    "fighterSlots": 0
+  },
+  {
+    "key": "FSV830 - Default",
+    "name": "FSV830 - Default",
+    "baseShipKey": "FSV830:A",
+    "slots": {
+      "B": "FSV830 B1 - Frigate Production System",
+      "D": "FSV830 D1 - Early Warning Command System"
     },
     "corvSlots": 0,
     "fighterSlots": 0
