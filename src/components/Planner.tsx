@@ -15,6 +15,10 @@ interface Props {
 export default function Planner({ reference, plan, setPlan }: Props) {
   const issues = validatePlan(reference, plan)
   const carriers = reference.carriersInPlan(plan)
+  const carrierName = (key: string, kind: 'ship' | 'template'): string =>
+    kind === 'template'
+      ? (reference.templateByKey.get(key)?.name ?? key)
+      : (reference.shipByKey.get(key)?.name ?? key)
 
   const updateUnit = (id: string, patch: Partial<FleetUnit>) =>
     setPlan((p) => ({ ...p, units: p.units.map((u) => (u.id === id ? { ...u, ...patch } : u)) }))
@@ -182,7 +186,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
                       }}>
                         <option value="">— carrier —</option>
                         {carriers.map((c) => (
-                          <option key={`${c.key}|${c.kind}`} value={c.key}>{c.key}</option>
+                          <option key={`${c.key}|${c.kind}`} value={c.key}>{carrierName(c.key, c.kind)}</option>
                         ))}
                       </select>
                     </td>
@@ -210,7 +214,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
           <div style={{ marginTop: 10 }}>
             {carriers.map((c) => (
               <div key={`${c.key}|${c.kind}`} style={{ margin: '4px 0' }}>
-                <span className="muted">{c.key}:</span>{' '}
+                <span className="muted">{carrierName(c.key, c.kind)}:</span>{' '}
                 {c.hangars.map((h) => (
                   <span key={h.ref} className="carry-cap" style={{ marginRight: 12 }}>
                     {h.ref} → {h.corvCapacity > 0 ? `${h.corvCapacity} corv` : ''}{h.corvCapacity > 0 && h.fighterCapacity > 0 ? ' + ' : ''}{h.fighterCapacity > 0 ? `${h.fighterCapacity} fighter${h.size ? ` (${h.size})` : ''}` : ''}
