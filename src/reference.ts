@@ -62,20 +62,33 @@ export class Reference {
     return Reference.SLOT_ORDER.filter((s) => slots.has(s))
   }
 
+  /** Modules offered in a slot picker; hidden ones are curated out. */
   modulesForSlot(shipKey: string, slot: string): Module[] {
-    return this.modules.filter((m) => m.shipKey === shipKey && m.slot === slot)
+    return this.modules.filter((m) => m.shipKey === shipKey && m.slot === slot && !m.hidden)
   }
 
   templateableShips(): Ship[] {
     const withModules = new Set(this.modules.map((m) => m.shipKey))
-    return this.ships.filter((s) => withModules.has(s.key))
+    return this.ships.filter((s) => withModules.has(s.key) && !s.hidden)
+  }
+
+  /** A template disappears from pickers when its base ship is hidden. */
+  isTemplateHidden(t: Template): boolean {
+    return !!this.shipByKey.get(t.baseShipKey)?.hidden
+  }
+
+  isUnitHidden(key: string): boolean {
+    const ship = this.shipByKey.get(key)
+    if (ship) return !!ship.hidden
+    const tpl = this.templateByKey.get(key)
+    return tpl ? this.isTemplateHidden(tpl) : false
   }
 
   unitList(): { key: string; label: string; kind: 'ship' | 'template' }[] {
     const nameCount = new Map<string, number>()
     for (const s of this.ships) nameCount.set(s.name, (nameCount.get(s.name) ?? 0) + 1)
     const ships = this.ships
-      .filter((s) => !SUPERCLASS.has(s.class) && !AIRCRAFT.has(s.class))
+      .filter((s) => !s.hidden && !SUPERCLASS.has(s.class) && !AIRCRAFT.has(s.class))
       .map((s) => {
         const dup = (nameCount.get(s.name) ?? 0) > 1
         return {
@@ -84,7 +97,9 @@ export class Reference {
           kind: 'ship' as const,
         }
       })
-    const templates = this.templates.map((t) => ({ key: t.key, label: t.name, kind: 'template' as const }))
+    const templates = this.templates
+      .filter((t) => !this.isTemplateHidden(t))
+      .map((t) => ({ key: t.key, label: t.name, kind: 'template' as const }))
     return [...ships, ...templates]
   }
 
@@ -118,16 +133,17 @@ export class Reference {
   }
 
   aircraft(): Ship[] {
-    return this.ships.filter((s) => s.class === 'Fighter' || s.class === 'Corvette')
+    return this.ships.filter((s) => !s.hidden && (s.class === 'Fighter' || s.class === 'Corvette'))
   }
 
   /** Aircraft that fit a given hangar (corvette dock, fighter hangar, or mixed). */
   aircraftForHangar(h: Hangar): Ship[] {
+    const pool = this.ships.filter((s) => !s.hidden)
     const fits = (s: Ship) =>
       s.class === 'Fighter' ? (!h.size || !s.size || SIZE_ORDER[s.size] <= SIZE_ORDER[h.size]) : true
-    if (h.kind === 'corvette') return this.ships.filter((s) => s.class === 'Corvette')
-    if (h.kind === 'fighter') return this.ships.filter((s) => s.class === 'Fighter' && fits(s))
-    return this.ships.filter((s) => (s.class === 'Corvette' || s.class === 'Fighter') && fits(s))
+    if (h.kind === 'corvette') return pool.filter((s) => s.class === 'Corvette')
+    if (h.kind === 'fighter') return pool.filter((s) => s.class === 'Fighter' && fits(s))
+    return pool.filter((s) => (s.class === 'Corvette' || s.class === 'Fighter') && fits(s))
   }
 
   carrierHangars(key: string, kind: 'ship' | 'template'): Hangar[] {

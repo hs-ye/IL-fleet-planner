@@ -76,6 +76,12 @@ button.danger:hover { border-color: var(--red); color: var(--red); }
 
 .toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
+.segmented { display: inline-flex; }
+.segmented button { border-radius: 0; border-left-width: 0; }
+.segmented button:first-child { border-radius: 4px 0 0 4px; border-left-width: 1px; }
+.segmented button:last-child { border-radius: 0 4px 4px 0; }
+.segmented button.active { background: var(--accent); color: #06121f; border-color: var(--accent); font-weight: 600; }
+
 .fleet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 @media (max-width: 860px) { .fleet-grid { grid-template-columns: 1fr; } }
 
@@ -118,6 +124,12 @@ th.num .sort-btn { text-align: right; }
 
 .data-table { max-height: 420px; overflow: auto; }
 .data-table th { position: sticky; top: 0; background: var(--panel); z-index: 1; }
+
+/* Curated-out rows stay editable but read as inactive; the filter hides them entirely. */
+tr.row-hidden td { opacity: 0.45; }
+tr.row-filtered-out { display: none; }
+td.row-actions { white-space: nowrap; }
+td.row-actions button { margin-left: 4px; }
 
 .tag {
   display: inline-block;

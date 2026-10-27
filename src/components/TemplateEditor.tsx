@@ -18,6 +18,10 @@ export default function TemplateEditor({ reference, onTemplatesChange, onResetTe
 
   const templateable = reference.templateableShips()
   const slotLetters = baseShipKey ? reference.slotsForShip(baseShipKey) : []
+  // A hidden base ship takes its templates with it; templates using only hidden
+  // modules stay listed because the base ship is still curated in.
+  const visibleTemplates = reference.templates.filter((t) => !reference.isTemplateHidden(t))
+  const hiddenTemplateCount = reference.templates.length - visibleTemplates.length
 
   const corvSlots = slotLetters.reduce((acc, s) => acc + (reference.moduleByName.get(slots[s] ?? '')?.corvCapacity ?? 0), 0)
   const fighterSlots = slotLetters.reduce((acc, s) => acc + (reference.moduleByName.get(slots[s] ?? '')?.fighterCapacity ?? 0), 0)
@@ -131,15 +135,18 @@ export default function TemplateEditor({ reference, onTemplatesChange, onResetTe
         {baseShipKey && (
           <div className="config-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', marginTop: 10 }}>
             {slotLetters.map((slot) => {
-              const stale = !!slots[slot] && !reference.moduleByName.has(slots[slot])
+              const mod = slots[slot] ? reference.moduleByName.get(slots[slot]) : undefined
+              const stale = !!slots[slot] && !mod
+              const hidden = !!mod?.hidden
               return (
                 <label key={slot}>
-                  Slot {slot}{stale && <span className="warn"> (stale)</span>}
+                  Slot {slot}{stale && <span className="warn"> (stale)</span>}{hidden && <span className="muted"> (hidden)</span>}
                   <select
                     value={stale ? '' : (slots[slot] ?? '')}
                     onChange={(e) => setSlots({ ...slots, [slot]: e.target.value })}
                   >
                     <option value="">{stale ? `— stale: ${slots[slot]} —` : '— none —'}</option>
+                    {hidden && <option value={slots[slot]}>{slots[slot]} (hidden)</option>}
                     {reference.modulesForSlot(baseShipKey, slot).map((m) => (
                       <option key={m.name} value={m.name}>{m.name}</option>
                     ))}
@@ -167,18 +174,24 @@ export default function TemplateEditor({ reference, onTemplatesChange, onResetTe
 
       <div className="panel">
         <div className="toolbar">
-          <h3 style={{ margin: 0, flexGrow: 1 }}>All templates ({reference.templates.length})</h3>
+          <h3 style={{ margin: 0, flexGrow: 1 }}>All templates ({visibleTemplates.length})</h3>
           <button className="small" onClick={onResetTemplates}>Reset</button>
           <button className="small" onClick={handleExport}>Export templates</button>
           <button className="small" onClick={() => fileInputRef.current?.click()}>Import templates</button>
           <input ref={fileInputRef} type="file" accept="application/json,.json" style={{ display: 'none' }} onChange={handleImportFile} />
         </div>
+        {hiddenTemplateCount > 0 && (
+          <p className="muted" style={{ fontSize: 12, margin: '0 0 4px' }}>
+            {hiddenTemplateCount} template{hiddenTemplateCount > 1 ? 's are' : ' is'} hidden because the base ship is
+            hidden on the Reference Data tab.
+          </p>
+        )}
         <table>
           <thead>
             <tr><th>Name</th><th>Base ship</th><th className="num">Corv</th><th className="num">Fighter</th><th>Slots</th><th></th></tr>
           </thead>
           <tbody>
-            {reference.templates.map((t) => {
+            {visibleTemplates.map((t) => {
               const totals = liveTotals(t)
               const missing = Object.values(t.slots).filter((m) => !reference.moduleByName.has(m))
               return (

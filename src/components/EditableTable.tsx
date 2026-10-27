@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 export interface Column<T> {
   key: string
   label: string
@@ -14,11 +16,23 @@ interface Props<T> {
   onChange: (rows: T[]) => void
   onAdd: () => void
   addLabel: string
+  /** Extra per-row controls, rendered before the delete button. */
+  rowActions?: (row: T, index: number) => ReactNode
+  /** Extra classes per row; used to dim/filter curated-out rows. */
+  rowClassName?: (row: T) => string
 }
 
 // Inline-editable table. Every cell is an input, so Tab / Shift+Tab navigate
 // between cells natively (Excel-style); values commit on change.
-export default function EditableTable<T>({ columns, rows, onChange, onAdd, addLabel }: Props<T>) {
+export default function EditableTable<T>({
+  columns,
+  rows,
+  onChange,
+  onAdd,
+  addLabel,
+  rowActions,
+  rowClassName,
+}: Props<T>) {
   const update = (i: number, col: Column<T>, value: string) => {
     onChange(rows.map((r, j) => (j === i ? col.write(r, value) : r)))
   }
@@ -41,7 +55,7 @@ export default function EditableTable<T>({ columns, rows, onChange, onAdd, addLa
         </thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={i}>
+            <tr key={i} className={rowClassName?.(row)}>
               {columns.map((col) => (
                 <td key={col.key}>
                   <input
@@ -52,7 +66,10 @@ export default function EditableTable<T>({ columns, rows, onChange, onAdd, addLa
                   />
                 </td>
               ))}
-              <td><button className="small danger" onClick={() => remove(i)}>×</button></td>
+              <td className="row-actions">
+                {rowActions?.(row, i)}
+                <button className="small danger" onClick={() => remove(i)}>×</button>
+              </td>
             </tr>
           ))}
         </tbody>

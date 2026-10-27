@@ -26,6 +26,8 @@ export interface Ship {
   fixedFighterSlots: number | null
   size: Size | null
   notes: string | null
+  /** Hidden in the planner/template pickers; still valid for existing plans. */
+  hidden?: boolean
 }
 
 export interface Module {
@@ -36,6 +38,8 @@ export interface Module {
   fighterCapacity: number
   hangarSize: Size | null
   effect: string | null
+  /** Hidden in the template slot pickers; still counts for existing templates. */
+  hidden?: boolean
 }
 
 export interface Template {

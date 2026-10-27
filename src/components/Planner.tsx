@@ -218,6 +218,10 @@ export default function Planner({ reference, plan, setPlan }: Props) {
 
   const setConfig = (patch: Partial<FleetPlan>) => setPlan((p) => ({ ...p, ...patch }))
 
+  // Hidden reference items stay selectable on rows that already use them, so a
+  // curated-out ship never turns into a blank dropdown in an existing plan.
+  const unitOptions = reference.unitList()
+
   const renderFleet = (side: Side, units: FleetUnit[], totalCp: number) => (
     <div className="panel">
       <h3>{side === 'Main' ? 'Main Fleet' : 'Reinforcement (RF)'}</h3>
@@ -252,9 +256,15 @@ export default function Planner({ reference, plan, setPlan }: Props) {
                     onChange={(e) => onUnitChange(u.id, e.target.value)}
                   >
                     <option value="">— select —</option>
-                    {reference.unitList().map((x) => (
+                    {unitOptions.map((x) => (
                       <option key={x.key} value={x.key}>{x.label}</option>
                     ))}
+                    {u.unitKey && !unitOptions.some((x) => x.key === u.unitKey) && (
+                      <option value={u.unitKey}>
+                        {unitLabel(u.unitKey)}
+                        {reference.isUnitHidden(u.unitKey) ? ' (hidden)' : ' (not in list)'}
+                      </option>
+                    )}
                   </select>
                 </td>
                 <td className="muted">{reference.unitClass(u.unitKey) ?? ''}</td>
@@ -347,6 +357,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
                     const corvCap = h.corvCapacity * copies
                     const ftrCap = h.fighterCapacity * copies
                     const pending = entries.some((e) => !e.aircraftKey)
+                    const aircraftOptions = reference.aircraftForHangar(h)
                     return (
                       <div key={h.ref} className="hangar-box">
                         <div className="hangar-head">
@@ -372,9 +383,15 @@ export default function Planner({ reference, plan, setPlan }: Props) {
                               onChange={(ev) => updateAircraft(e.id, { aircraftKey: ev.target.value })}
                             >
                               <option value="">— aircraft —</option>
-                              {reference.aircraftForHangar(h).map((s) => (
+                              {aircraftOptions.map((s) => (
                                 <option key={s.key} value={s.key}>{s.name}</option>
                               ))}
+                              {e.aircraftKey && !aircraftOptions.some((s) => s.key === e.aircraftKey) && (
+                                <option value={e.aircraftKey}>
+                                  {reference.shipByKey.get(e.aircraftKey)?.name ?? e.aircraftKey}
+                                  {reference.shipByKey.get(e.aircraftKey)?.hidden ? ' (hidden)' : ' (not offered)'}
+                                </option>
+                              )}
                             </select>
                             <input
                               type="number"

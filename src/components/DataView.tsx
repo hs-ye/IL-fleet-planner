@@ -40,6 +40,33 @@ const moduleColumns: Column<Module>[] = [
 
 export default function DataView({ reference, onShipsChange, onModulesChange, onResetShips, onResetModules }: Props) {
   const [which, setWhich] = useState<'ships' | 'modules'>('ships')
+  const [filter, setFilter] = useState<'all' | 'visible' | 'hidden'>('all')
+
+  const hiddenShips = reference.ships.filter((s) => s.hidden).length
+  const hiddenModules = reference.modules.filter((m) => m.hidden).length
+  const hiddenCount = which === 'ships' ? hiddenShips : hiddenModules
+  const totalCount = which === 'ships' ? reference.ships.length : reference.modules.length
+
+  const toggleShip = (i: number) =>
+    onShipsChange(reference.ships.map((s, j) => (j === i ? { ...s, hidden: !s.hidden } : s)))
+  const toggleModule = (i: number) =>
+    onModulesChange(reference.modules.map((m, j) => (j === i ? { ...m, hidden: !m.hidden } : m)))
+
+  const rowClass = (row: { hidden?: boolean }): string => {
+    const filteredOut =
+      (filter === 'visible' && row.hidden) || (filter === 'hidden' && !row.hidden)
+    return `${row.hidden ? 'row-hidden' : ''}${filteredOut ? ' row-filtered-out' : ''}`
+  }
+
+  const visibilityButton = (hidden: boolean | undefined, onToggle: () => void) => (
+    <button
+      className="small"
+      onClick={onToggle}
+      title={hidden ? 'Show this in the planner and templates' : 'Hide this from the planner and templates'}
+    >
+      {hidden ? 'Show' : 'Hide'}
+    </button>
+  )
 
   const addShip = () =>
     onShipsChange([
@@ -71,6 +98,16 @@ export default function DataView({ reference, onShipsChange, onModulesChange, on
         <button className={which === 'ships' ? 'primary' : ''} onClick={() => setWhich('ships')}>Ships ({reference.ships.length})</button>
         <button className={which === 'modules' ? 'primary' : ''} onClick={() => setWhich('modules')}>Modules ({reference.modules.length})</button>
         <span style={{ flexGrow: 1 }} />
+        <span className="muted" style={{ fontSize: 12 }}>Show:</span>
+        <div className="segmented">
+          <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>All ({totalCount})</button>
+          <button className={filter === 'visible' ? 'active' : ''} onClick={() => setFilter('visible')}>
+            Visible ({totalCount - hiddenCount})
+          </button>
+          <button className={filter === 'hidden' ? 'active' : ''} onClick={() => setFilter('hidden')}>
+            Hidden ({hiddenCount})
+          </button>
+        </div>
         {which === 'ships' ? (
           <>
             <button className="small" onClick={() => download('ships.json', reference.ships)}>Export ships</button>
@@ -84,12 +121,33 @@ export default function DataView({ reference, onShipsChange, onModulesChange, on
         )}
       </div>
 
+      <p className="muted" style={{ fontSize: 12, margin: '0 0 4px' }}>
+        <b>Hide</b> keeps a ship or module out of the planner pickers and the template editor; it stays in your
+        reference data (and in plans/templates that already use it). Hidden rows are dimmed.
+      </p>
+
       <div className="panel data-table">
         {which === 'ships' && (
-          <EditableTable columns={shipColumns} rows={reference.ships} onChange={onShipsChange} onAdd={addShip} addLabel="Add ship" />
+          <EditableTable
+            columns={shipColumns}
+            rows={reference.ships}
+            onChange={onShipsChange}
+            onAdd={addShip}
+            addLabel="Add ship"
+            rowClassName={rowClass}
+            rowActions={(row, i) => visibilityButton(row.hidden, () => toggleShip(i))}
+          />
         )}
         {which === 'modules' && (
-          <EditableTable columns={moduleColumns} rows={reference.modules} onChange={onModulesChange} onAdd={addModule} addLabel="Add module" />
+          <EditableTable
+            columns={moduleColumns}
+            rows={reference.modules}
+            onChange={onModulesChange}
+            onAdd={addModule}
+            addLabel="Add module"
+            rowClassName={rowClass}
+            rowActions={(row, i) => visibilityButton(row.hidden, () => toggleModule(i))}
+          />
         )}
       </div>
     </div>
