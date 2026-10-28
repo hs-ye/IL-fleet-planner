@@ -118,20 +118,27 @@ export default function Planner({ reference, plan, setPlan }: Props) {
       side: u.side,
     }]
   })
-  const incoming = analyzeIncomingFire(incomingUnits, {
-    delivery: incomingDelivery,
+  const directFire = analyzeIncomingFire(incomingUnits, {
+    delivery: 'direct',
     targetClasses: incomingClasses,
     includeRF: incomingIncludeRF,
   })
+  const missileFire = analyzeIncomingFire(incomingUnits, {
+    delivery: 'missile',
+    targetClasses: incomingClasses,
+    includeRF: incomingIncludeRF,
+  })
+  const incoming = incomingDelivery === 'direct' ? directFire : missileFire
 
   const tierMarkers = (tier: FocusTier | 'low') => {
-    const inTier =
+    const names: string[] = []
+    const inTier = (res: typeof incoming) =>
       tier === 'low'
-        ? incoming.validShips > 0 && incoming.validShips < 5
-        : focusTier(incoming.validShips)?.min === tier.min
-    return inTier ? (
-      <span className="tag">{incomingDelivery === 'direct' ? 'Direct' : 'Missile'}</span>
-    ) : null
+        ? res.validShips > 0 && res.validShips < 5
+        : focusTier(res.validShips)?.min === tier.min
+    if (inTier(directFire)) names.push('Direct')
+    if (inTier(missileFire)) names.push('Missile')
+    return names.map((n) => <span key={n} className="tag">{n}</span>)
   }
 
   // Aggregate hangar usage across the whole fleet (corvettes and fighters separately).
@@ -600,9 +607,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
 
         <div className="incoming-cols">
           <div>
-            {incomingClasses.length === 0 ? (
-              <p className="muted">Select at least one target class.</p>
-            ) : incoming.validShips === 0 ? (
+            {incoming.validShips === 0 ? (
               <p className="muted">
                 No selectable targets
                 {incomingDelivery === 'direct' && incoming.engagedRow
@@ -617,11 +622,20 @@ export default function Planner({ reference, plan, setPlan }: Props) {
                   <span>
                     Damage split:{' '}
                     <b className={incoming.locks > 1 ? 'ok' : 'warn'}>
-                      {incoming.locks} ship{incoming.locks === 1 ? '' : 's'}
+                      {incoming.locks} {incoming.locks === 1 ? 'copy' : 'copies'}
                     </b>
                     {incoming.locks === 1 && <span className="warn"> (focus fire)</span>}
                   </span>
                 </div>
+                {incoming.usingFallback && (
+                  <p className="muted" style={{ fontSize: 12, margin: '0 0 8px' }}>
+                    No selected-class targets in reach — showing all ships
+                    {incomingDelivery === 'direct' && incoming.engagedRow
+                      ? ` in the ${incoming.engagedRow.toLowerCase()} row`
+                      : ''}
+                    .
+                  </p>
+                )}
                 <table>
                   <thead>
                     <tr><th>Target</th><th>Class</th><th>Row</th><th className="num">Copies</th></tr>
@@ -645,12 +659,12 @@ export default function Planner({ reference, plan, setPlan }: Props) {
             <h4 style={{ marginTop: 0, marginBottom: 6 }}>
               Focus fire thresholds{' '}
               <span className="muted" style={{ fontWeight: 400, fontSize: 12 }}>
-                — copies attacked at once
+                — copies taking damage at once
               </span>
             </h4>
             <table>
               <thead>
-                <tr><th>Valid targets</th><th className="num">Ships attacked</th><th>Your fleet</th></tr>
+                <tr><th>Valid targets</th><th className="num">Damage split</th><th>Your fleet</th></tr>
               </thead>
               <tbody>
                 <tr>

@@ -37,11 +37,13 @@ export interface IncomingResult {
   delivery: Delivery
   /** Row that direct fire is currently working on (null for missiles). */
   engagedRow: Row | null
-  /** Preferred-class ships the weapon can select now, one entry per ship or template. */
+  /** Ships the weapon can select now, one entry per ship or template. */
   targets: IncomingTarget[]
   validShips: number
   /** Copies the damage is split across at this target count (0 with no targets). */
   locks: number
+  /** True when no preferred class was in reach and the fallback set is shown. */
+  usingFallback: boolean
 }
 
 /**
@@ -98,10 +100,11 @@ const shipCount = (targets: IncomingTarget[]) => targets.reduce((s, t) => s + t.
 /**
  * What an incoming weapon can select right now, for one fire type.
  *
- * Only the weapon's preferred classes are considered — fallback fire at other
- * classes is deliberately ignored because that is the weapon performing badly.
- * Direct fire reaches only the frontmost non-empty row; missiles reach any row.
- * The selected-target count then decides how many copies are attacked at once.
+ * Preferred classes are selected first. If none of them are in reach, the
+ * fallback set is everything in reach: the engaged row for direct fire, or the
+ * whole fleet for missiles. Direct fire reaches only the frontmost non-empty
+ * row; missiles reach any row. The selected-target count then decides how many
+ * copies the damage is split across.
  */
 export function analyzeIncomingFire(units: IncomingUnit[], profile: IncomingProfile): IncomingResult {
   const fleet = units.filter((u) => u.count > 0 && (profile.includeRF || u.side === 'Main'))
@@ -109,10 +112,20 @@ export function analyzeIncomingFire(units: IncomingUnit[], profile: IncomingProf
 
   let engagedRow: Row | null = null
   let reachable = preferred
+  let usingFallback = false
   if (profile.delivery === 'direct') {
     // Any ship screens the rows behind it, selected class or not.
     engagedRow = ROWS.find((row) => fleet.some((u) => u.row === row)) ?? null
-    reachable = engagedRow ? preferred.filter((u) => u.row === engagedRow) : []
+    const preferredInRow = engagedRow ? preferred.filter((u) => u.row === engagedRow) : []
+    if (preferredInRow.length > 0) {
+      reachable = preferredInRow
+    } else {
+      reachable = engagedRow ? fleet.filter((u) => u.row === engagedRow) : []
+      usingFallback = reachable.length > 0
+    }
+  } else if (preferred.length === 0) {
+    reachable = fleet
+    usingFallback = fleet.length > 0
   }
 
   const targets = aggregate(reachable)
@@ -124,5 +137,6 @@ export function analyzeIncomingFire(units: IncomingUnit[], profile: IncomingProf
     targets,
     validShips,
     locks: damageLocks(validShips),
+    usingFallback,
   }
 }
