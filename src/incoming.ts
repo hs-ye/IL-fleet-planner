@@ -4,7 +4,8 @@ export type Delivery = 'direct' | 'missile'
 
 /** A fielded unit (copies > 0) with its resolved class, as the analysis sees it. */
 export interface IncomingUnit {
-  id: string
+  key: string
+  name: string
   class: ShipClass
   row: Row
   count: number
@@ -19,6 +20,8 @@ export interface IncomingProfile {
 }
 
 export interface IncomingTarget {
+  key: string
+  name: string
   class: ShipClass
   row: Row
   ships: number
@@ -34,14 +37,11 @@ export interface IncomingResult {
   delivery: Delivery
   /** Row that direct fire is currently working on (null for missiles). */
   engagedRow: Row | null
-  /** Preferred-class ships the weapon can select now. */
+  /** Preferred-class ships the weapon can select now, one entry per ship or template. */
   targets: IncomingTarget[]
   validShips: number
   /** Copies the damage is split across at this target count (0 with no targets). */
   locks: number
-  /** Direct fire only: preferred-class ships behind the engaged row. */
-  screened: IncomingTarget[]
-  screenedShips: number
 }
 
 /**
@@ -77,23 +77,19 @@ export function damageLocks(ships: number): number {
   return focusTier(ships)?.ships ?? 1
 }
 
-/** Smallest tier above the current count, for the "how many more" hint. */
-export function nextFocusTier(ships: number): FocusTier | null {
-  return FOCUS_TIERS.find((t) => t.min > ships) ?? null
-}
-
 function aggregate(units: IncomingUnit[]): IncomingTarget[] {
-  const byClassRow = new Map<string, IncomingTarget>()
+  const byUnitRow = new Map<string, IncomingTarget>()
   for (const u of units) {
-    const key = `${u.class}|${u.row}`
-    const cur = byClassRow.get(key)
+    const key = `${u.key}|${u.row}`
+    const cur = byUnitRow.get(key)
     if (cur) cur.ships += u.count
-    else byClassRow.set(key, { class: u.class, row: u.row, ships: u.count })
+    else byUnitRow.set(key, { key: u.key, name: u.name, class: u.class, row: u.row, ships: u.count })
   }
-  return [...byClassRow.values()].sort(
+  return [...byUnitRow.values()].sort(
     (a, b) =>
       CLASS_ORDER.indexOf(a.class) - CLASS_ORDER.indexOf(b.class) ||
-      ROWS.indexOf(a.row) - ROWS.indexOf(b.row),
+      ROWS.indexOf(a.row) - ROWS.indexOf(b.row) ||
+      a.name.localeCompare(b.name),
   )
 }
 
@@ -119,7 +115,6 @@ export function analyzeIncomingFire(units: IncomingUnit[], profile: IncomingProf
     reachable = engagedRow ? preferred.filter((u) => u.row === engagedRow) : []
   }
 
-  const screenedUnits = engagedRow ? preferred.filter((u) => u.row !== engagedRow) : []
   const targets = aggregate(reachable)
   const validShips = shipCount(targets)
 
@@ -129,7 +124,5 @@ export function analyzeIncomingFire(units: IncomingUnit[], profile: IncomingProf
     targets,
     validShips,
     locks: damageLocks(validShips),
-    screened: aggregate(screenedUnits),
-    screenedShips: shipCount(aggregate(screenedUnits)),
   }
 }

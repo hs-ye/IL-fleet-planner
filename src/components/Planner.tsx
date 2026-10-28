@@ -7,10 +7,8 @@ import {
   analyzeIncomingFire,
   FOCUS_TIERS,
   focusTier,
-  nextFocusTier,
+  type Delivery,
   type FocusTier,
-  type IncomingResult,
-  type IncomingTarget,
   type IncomingUnit,
 } from '../incoming'
 import ShipIcon from './ShipIcon'
@@ -83,62 +81,11 @@ export default function Planner({ reference, plan, setPlan }: Props) {
     return cmp * sort.dir
   })
 
+  const [incomingDelivery, setIncomingDelivery] = useState<Delivery>('direct')
   const [incomingClasses, setIncomingClasses] = useState<ShipClass[]>(CAPITAL_CLASSES)
   const [incomingIncludeRF, setIncomingIncludeRF] = useState(true)
   const toggleIncomingClass = (cls: ShipClass) =>
     setIncomingClasses((list) => (list.includes(cls) ? list.filter((c) => c !== cls) : [...list, cls]))
-
-  // Incoming fire: only the weapon's preferred classes count, and direct fire
-  // and missiles reach different rows — so each fire type is analysed separately.
-  const incomingUnits: IncomingUnit[] = plan.units.flatMap((u) => {
-    if (!u.unitKey || u.count <= 0) return []
-    const cls = reference.unitClass(u.unitKey)
-    if (!cls || cls === 'Fighter' || cls === 'Corvette') return []
-    return [{ id: u.id, class: cls as ShipClass, row: u.row, count: u.count, side: u.side }]
-  })
-  const directFire = analyzeIncomingFire(incomingUnits, {
-    delivery: 'direct',
-    targetClasses: incomingClasses,
-    includeRF: incomingIncludeRF,
-  })
-  const missileFire = analyzeIncomingFire(incomingUnits, {
-    delivery: 'missile',
-    targetClasses: incomingClasses,
-    includeRF: incomingIncludeRF,
-  })
-
-  const targetLabel = (targets: IncomingTarget[]) =>
-    targets.map((t) => `${t.ships}× ${t.class} (${t.row})`).join(' · ')
-
-  const nextTierLabel = (res: IncomingResult) => {
-    const next = nextFocusTier(res.validShips)
-    if (!next) return res.validShips > 0 ? 'Max split' : '—'
-    if (res.validShips === 0) return `${next.min} targets → ${next.ships} ships`
-    return `${next.min - res.validShips} more (${next.min}) → ${next.ships} ships`
-  }
-
-  const tierMarkers = (tier: FocusTier | 'low') => {
-    const names: string[] = []
-    const inTier = (res: IncomingResult) =>
-      tier === 'low'
-        ? res.validShips > 0 && res.validShips < 5
-        : focusTier(res.validShips)?.min === tier.min
-    if (inTier(directFire)) names.push('Direct')
-    if (inTier(missileFire)) names.push('Missile')
-    return names.map((n) => <span key={n} className="tag">{n}</span>)
-  }
-
-  const splitCell = (res: IncomingResult) =>
-    res.validShips === 0 ? (
-      <span className="muted">—</span>
-    ) : (
-      <>
-        <b className={res.locks > 1 ? 'ok' : 'warn'}>
-          {res.locks} ship{res.locks === 1 ? '' : 's'}
-        </b>
-        {res.locks === 1 && <span className="warn"> (focus fire)</span>}
-      </>
-    )
 
   const [toast, setToast] = useState<string | null>(null)
   const toastTimer = useRef<number | undefined>(undefined)
@@ -155,6 +102,37 @@ export default function Planner({ reference, plan, setPlan }: Props) {
     plan.units.filter((u) => u.unitKey === key && u.unitKind === kind).reduce((s, u) => s + u.count, 0)
   // Aircraft can only be loaded into carriers that actually have copies fielded.
   const fieldedCarriers = carriers.filter((c) => copiesOf(c.key, c.kind) > 0)
+
+  // Incoming fire: only the weapon's preferred classes count; direct fire and
+  // missiles reach different rows, so the fire type is a toggle.
+  const incomingUnits: IncomingUnit[] = plan.units.flatMap((u) => {
+    if (!u.unitKey || u.count <= 0) return []
+    const cls = reference.unitClass(u.unitKey)
+    if (!cls || cls === 'Fighter' || cls === 'Corvette') return []
+    return [{
+      key: u.unitKey,
+      name: unitLabel(u.unitKey),
+      class: cls as ShipClass,
+      row: u.row,
+      count: u.count,
+      side: u.side,
+    }]
+  })
+  const incoming = analyzeIncomingFire(incomingUnits, {
+    delivery: incomingDelivery,
+    targetClasses: incomingClasses,
+    includeRF: incomingIncludeRF,
+  })
+
+  const tierMarkers = (tier: FocusTier | 'low') => {
+    const inTier =
+      tier === 'low'
+        ? incoming.validShips > 0 && incoming.validShips < 5
+        : focusTier(incoming.validShips)?.min === tier.min
+    return inTier ? (
+      <span className="tag">{incomingDelivery === 'direct' ? 'Direct' : 'Missile'}</span>
+    ) : null
+  }
 
   // Aggregate hangar usage across the whole fleet (corvettes and fighters separately).
   const aircraftByHangar = new Map<string, AircraftAssignment[]>()
@@ -538,111 +516,6 @@ export default function Planner({ reference, plan, setPlan }: Props) {
         )}
 
         <h4 style={{ marginTop: 16, marginBottom: 6 }}>
-          Incoming fire{' '}
-          <span className="muted" style={{ fontWeight: 400, fontSize: 12 }}>
-            — focus fire against the selected classes; direct fire and missiles reach different ships
-          </span>
-        </h4>
-        <div className="toolbar">
-          <label className="inline-check">
-            <input
-              type="checkbox"
-              checked={incomingIncludeRF}
-              onChange={(e) => setIncomingIncludeRF(e.target.checked)}
-            />
-            Include RF
-          </label>
-        </div>
-        <div className="class-toggles">
-          {TARGET_CLASSES.map((cls) => {
-            const on = incomingClasses.includes(cls)
-            return (
-              <button
-                key={cls}
-                className={`small ${on ? 'pressed' : ''}`}
-                aria-pressed={on}
-                onClick={() => toggleIncomingClass(cls)}
-              >
-                {cls}
-              </button>
-            )
-          })}
-        </div>
-        <p className="muted" style={{ fontSize: 12, margin: '2px 0 6px' }}>
-          Only the selected classes count. Direct fire can only select the frontmost occupied row;
-          missiles can select any row.
-        </p>
-
-        {incomingClasses.length === 0 ? (
-          <p className="muted">Select at least one target class.</p>
-        ) : (
-          <table className="incoming-results">
-            <thead>
-              <tr><th></th><th>Direct fire</th><th>Missile</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="muted">Targets</td>
-                <td>{targetLabel(directFire.targets) || '—'}</td>
-                <td>{targetLabel(missileFire.targets) || '—'}</td>
-              </tr>
-              <tr>
-                <td className="muted">Valid targets</td>
-                <td><b>{directFire.validShips}</b></td>
-                <td><b>{missileFire.validShips}</b></td>
-              </tr>
-              <tr>
-                <td className="muted">Damage split</td>
-                <td>{splitCell(directFire)}</td>
-                <td>{splitCell(missileFire)}</td>
-              </tr>
-              <tr>
-                <td className="muted">Next threshold</td>
-                <td>{nextTierLabel(directFire)}</td>
-                <td>{nextTierLabel(missileFire)}</td>
-              </tr>
-              <tr>
-                <td className="muted">Screened</td>
-                <td>{targetLabel(directFire.screened) || '—'}</td>
-                <td className="muted">—</td>
-              </tr>
-            </tbody>
-          </table>
-        )}
-
-        <p className="muted" style={{ fontSize: 12, margin: '2px 0' }}>
-          {directFire.engagedRow
-            ? `Direct fire is engaging the ${directFire.engagedRow.toLowerCase()} row.`
-            : 'No ships fielded.'}
-        </p>
-
-        <h4 style={{ marginTop: 16, marginBottom: 6 }}>
-          Focus fire thresholds{' '}
-          <span className="muted" style={{ fontWeight: 400, fontSize: 12 }}>
-            — copies attacked at once
-          </span>
-        </h4>
-        <table>
-          <thead>
-            <tr><th>Valid targets</th><th className="num">Ships attacked</th><th>Your fleet</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1–4</td>
-              <td className="num">1</td>
-              <td>{tierMarkers('low')}</td>
-            </tr>
-            {FOCUS_TIERS.map((tier) => (
-              <tr key={tier.min}>
-                <td>{tier.max === Infinity ? `${tier.min}+` : `${tier.min}–${tier.max}`}</td>
-                <td className="num">{tier.ships}</td>
-                <td>{tierMarkers(tier)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <h4 style={{ marginTop: 16, marginBottom: 6 }}>
           Build counts{' '}
           <span className="muted" style={{ fontWeight: 400, fontSize: 12 }}>
             — total copies per base:variant; check against in-game build limits
@@ -676,6 +549,126 @@ export default function Planner({ reference, plan, setPlan }: Props) {
           </table>
         )}
       </div>
+      </div>
+
+      <div className="panel">
+        <h3>Incoming fire analysis</h3>
+        <p className="muted" style={{ fontSize: 12, margin: '0 0 6px' }}>
+          Focus fire against the selected classes. Direct fire can only select the frontmost occupied
+          row; missiles can select any row. Fewer than {FOCUS_TIERS[0].min} valid targets focuses all
+          damage on one ship.
+        </p>
+        <div className="toolbar">
+          <div className="segmented">
+            <button
+              className={incomingDelivery === 'direct' ? 'active' : ''}
+              onClick={() => setIncomingDelivery('direct')}
+            >
+              Direct fire
+            </button>
+            <button
+              className={incomingDelivery === 'missile' ? 'active' : ''}
+              onClick={() => setIncomingDelivery('missile')}
+            >
+              Missile
+            </button>
+          </div>
+          <label className="inline-check">
+            <input
+              type="checkbox"
+              checked={incomingIncludeRF}
+              onChange={(e) => setIncomingIncludeRF(e.target.checked)}
+            />
+            Include RF
+          </label>
+        </div>
+        <div className="class-toggles">
+          {TARGET_CLASSES.map((cls) => {
+            const on = incomingClasses.includes(cls)
+            return (
+              <button
+                key={cls}
+                className={`small ${on ? 'pressed' : ''}`}
+                aria-pressed={on}
+                onClick={() => toggleIncomingClass(cls)}
+              >
+                {cls}
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="incoming-cols">
+          <div>
+            {incomingClasses.length === 0 ? (
+              <p className="muted">Select at least one target class.</p>
+            ) : incoming.validShips === 0 ? (
+              <p className="muted">
+                No selectable targets
+                {incomingDelivery === 'direct' && incoming.engagedRow
+                  ? ` in the ${incoming.engagedRow.toLowerCase()} row`
+                  : ' in the fleet'}
+                .
+              </p>
+            ) : (
+              <>
+                <div className="totals" style={{ margin: '0 0 8px' }}>
+                  <span>Valid targets: <b>{incoming.validShips}</b></span>
+                  <span>
+                    Damage split:{' '}
+                    <b className={incoming.locks > 1 ? 'ok' : 'warn'}>
+                      {incoming.locks} ship{incoming.locks === 1 ? '' : 's'}
+                    </b>
+                    {incoming.locks === 1 && <span className="warn"> (focus fire)</span>}
+                  </span>
+                </div>
+                <table>
+                  <thead>
+                    <tr><th>Target</th><th>Class</th><th>Row</th><th className="num">Copies</th></tr>
+                  </thead>
+                  <tbody>
+                    {incoming.targets.map((t) => (
+                      <tr key={`${t.key}|${t.row}`}>
+                        <td>{t.name}</td>
+                        <td className="muted">{t.class}</td>
+                        <td className="muted">{t.row}</td>
+                        <td className="num">{t.ships}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            )}
+          </div>
+
+          <div>
+            <h4 style={{ marginTop: 0, marginBottom: 6 }}>
+              Focus fire thresholds{' '}
+              <span className="muted" style={{ fontWeight: 400, fontSize: 12 }}>
+                — copies attacked at once
+              </span>
+            </h4>
+            <table>
+              <thead>
+                <tr><th>Valid targets</th><th className="num">Ships attacked</th><th>Your fleet</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1–4</td>
+                  <td className="num">1</td>
+                  <td>{tierMarkers('low')}</td>
+                </tr>
+                {FOCUS_TIERS.map((tier) => (
+                  <tr key={tier.min}>
+                    <td>{tier.max === Infinity ? `${tier.min}+` : `${tier.min}–${tier.max}`}</td>
+                    <td className="num">{tier.ships}</td>
+                    <td>{tierMarkers(tier)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       {toast && <div className="toast">{toast}</div>}

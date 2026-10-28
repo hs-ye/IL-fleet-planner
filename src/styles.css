@@ -87,6 +87,9 @@ button.danger:hover { border-color: var(--red); color: var(--red); }
 .inline-check { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: 12px; }
 .inline-check input[type='checkbox'] { width: auto; margin: 0; }
 
+.incoming-cols { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; }
+@media (max-width: 900px) { .incoming-cols { grid-template-columns: minmax(0, 1fr); } }
+
 .fleet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 @media (max-width: 860px) { .fleet-grid { grid-template-columns: 1fr; } }
 
