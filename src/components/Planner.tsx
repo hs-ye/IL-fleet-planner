@@ -104,7 +104,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
   const fieldedCarriers = carriers.filter((c) => copiesOf(c.key, c.kind) > 0)
 
   // Incoming fire: only the weapon's preferred classes count; direct fire and
-  // missiles reach different rows, so the fire type is a toggle.
+  // missile/air reach different rows, so the fire type is a toggle.
   const incomingUnits: IncomingUnit[] = plan.units.flatMap((u) => {
     if (!u.unitKey || u.count <= 0) return []
     const cls = reference.unitClass(u.unitKey)
@@ -137,7 +137,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
         ? res.validShips > 0 && res.validShips < 5
         : focusTier(res.validShips)?.min === tier.min
     if (inTier(directFire)) names.push('Direct')
-    if (inTier(missileFire)) names.push('Missile')
+    if (inTier(missileFire)) names.push('Missile/Air')
     return names.map((n) => <span key={n} className="tag">{n}</span>)
   }
 
@@ -562,7 +562,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
         <h3>Incoming fire analysis</h3>
         <p className="muted" style={{ fontSize: 12, margin: '0 0 6px' }}>
           Focus fire against the selected classes. Direct fire can only select the frontmost occupied
-          row; missiles can select any row. Fewer than {FOCUS_TIERS[0].min} valid targets focuses all
+          row; missile/air can select any row. Fewer than {FOCUS_TIERS[0].min} valid targets focuses all
           damage on one ship.
         </p>
         <div className="toolbar">
@@ -577,7 +577,7 @@ export default function Planner({ reference, plan, setPlan }: Props) {
               className={incomingDelivery === 'missile' ? 'active' : ''}
               onClick={() => setIncomingDelivery('missile')}
             >
-              Missile
+              Missile/Air
             </button>
           </div>
           <label className="inline-check">

@@ -35,7 +35,7 @@ export interface FocusTier {
 
 export interface IncomingResult {
   delivery: Delivery
-  /** Row that direct fire is currently working on (null for missiles). */
+  /** Row that direct fire is currently working on (null for missile/air). */
   engagedRow: Row | null
   /** Ships the weapon can select now, one entry per ship or template. */
   targets: IncomingTarget[]
@@ -102,8 +102,8 @@ const shipCount = (targets: IncomingTarget[]) => targets.reduce((s, t) => s + t.
  *
  * Preferred classes are selected first. If none of them are in reach, the
  * fallback set is everything in reach: the engaged row for direct fire, or the
- * whole fleet for missiles. Direct fire reaches only the frontmost non-empty
- * row; missiles reach any row. The selected-target count then decides how many
+ * whole fleet for missile/air. Direct fire reaches only the frontmost non-empty
+ * row; missile/air reaches any row. The selected-target count then decides how many
  * copies the damage is split across.
  */
 export function analyzeIncomingFire(units: IncomingUnit[], profile: IncomingProfile): IncomingResult {
