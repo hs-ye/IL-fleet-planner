@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { ReferenceData, FleetPlan, Ship, Module, Template } from './types'
 import { Reference, loadReferenceData } from './reference'
 import { newPlan } from './serialize'
-import { loadShips, saveShips, loadModules, saveModules, loadTemplates, saveTemplates } from './storage'
+import { loadReference, saveShips, saveModules, saveTemplates } from './storage'
 import PlanBar from './components/PlanBar'
 import Planner from './components/Planner'
 import DataView from './components/DataView'
@@ -28,9 +28,10 @@ export default function App() {
     loadReferenceData()
       .then((d) => {
         setRawData(d)
-        setShips(loadShips(d.ships))
-        setModules(loadModules(d.modules))
-        setTemplates(loadTemplates(d.templates))
+        const stored = loadReference(d)
+        setShips(stored.ships)
+        setModules(stored.modules)
+        setTemplates(stored.templates)
       })
       .catch((e) => setLoadError(String(e)))
   }, [])
