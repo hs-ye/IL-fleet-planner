@@ -155,15 +155,6 @@
   {
     "shipKey": "CV3000:A",
     "slot": "B",
-    "name": "CV3000 B3",
-    "corvCapacity": 0,
-    "fighterCapacity": 0,
-    "hangarSize": null,
-    "effect": null
-  },
-  {
-    "shipKey": "CV3000:A",
-    "slot": "B",
     "name": "CV3000 B4 - UAV System",
     "corvCapacity": 0,
     "fighterCapacity": 0,
@@ -462,6 +453,33 @@
     "shipKey": "Constantine the Great:A",
     "slot": "C",
     "name": "CTG - C3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "D",
+    "name": "CTG - D1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "D",
+    "name": "CTG - D2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Constantine the Great:A",
+    "slot": "D",
+    "name": "CTG - D3",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -783,7 +801,70 @@
     "effect": null
   },
   {
-    "shipKey": "Mergrez:A",
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "M",
+    "name": "Sword - M3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "C",
+    "name": "AS - C1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "C",
+    "name": "AS - C2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "C",
+    "name": "AS - C3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "D",
+    "name": "AS - D1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "D",
+    "name": "AS - D2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Antotas Swordbearer:A",
+    "slot": "D",
+    "name": "AS - D3",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Megrez:A",
     "slot": "M",
     "name": "MER - M1",
     "corvCapacity": 0,
@@ -792,7 +873,7 @@
     "effect": null
   },
   {
-    "shipKey": "Mergrez:A",
+    "shipKey": "Megrez:A",
     "slot": "M",
     "name": "MER - M2",
     "corvCapacity": 0,
@@ -801,7 +882,7 @@
     "effect": null
   },
   {
-    "shipKey": "Mergrez:A",
+    "shipKey": "Megrez:A",
     "slot": "A",
     "name": "MER - A1",
     "corvCapacity": 0,
@@ -810,7 +891,7 @@
     "effect": null
   },
   {
-    "shipKey": "Mergrez:A",
+    "shipKey": "Megrez:A",
     "slot": "A",
     "name": "MER - A2",
     "corvCapacity": 0,
@@ -819,7 +900,7 @@
     "effect": null
   },
   {
-    "shipKey": "Mergrez:A",
+    "shipKey": "Megrez:A",
     "slot": "A",
     "name": "MER - A3",
     "corvCapacity": 0,
@@ -828,7 +909,7 @@
     "effect": null
   },
   {
-    "shipKey": "Mergrez:A",
+    "shipKey": "Megrez:A",
     "slot": "B",
     "name": "MER - B1",
     "corvCapacity": 0,
@@ -837,7 +918,7 @@
     "effect": null
   },
   {
-    "shipKey": "Mergrez:A",
+    "shipKey": "Megrez:A",
     "slot": "B",
     "name": "MER - B2",
     "corvCapacity": 0,
@@ -846,7 +927,7 @@
     "effect": null
   },
   {
-    "shipKey": "Mergrez:A",
+    "shipKey": "Megrez:A",
     "slot": "C",
     "name": "MER - C1",
     "corvCapacity": 0,
@@ -855,7 +936,7 @@
     "effect": null
   },
   {
-    "shipKey": "Mergrez:A",
+    "shipKey": "Megrez:A",
     "slot": "C",
     "name": "MER - C2",
     "corvCapacity": 0,
@@ -864,7 +945,7 @@
     "effect": null
   },
   {
-    "shipKey": "Mergrez:A",
+    "shipKey": "Megrez:A",
     "slot": "C",
     "name": "MER - C3 - Heavy Armour",
     "corvCapacity": 0,
@@ -973,15 +1054,6 @@
   },
   {
     "shipKey": "Dubhe:A",
-    "slot": "M",
-    "name": "DUB - M3",
-    "corvCapacity": 0,
-    "fighterCapacity": 0,
-    "hangarSize": null,
-    "effect": null
-  },
-  {
-    "shipKey": "Dubhe:A",
     "slot": "A",
     "name": "DUB - A1",
     "corvCapacity": 0,
@@ -993,6 +1065,15 @@
     "shipKey": "Dubhe:A",
     "slot": "A",
     "name": "DUB - A2",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "A",
+    "name": "DUB - A3",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,
@@ -1036,8 +1117,17 @@
   },
   {
     "shipKey": "Dubhe:A",
-    "slot": "C",
-    "name": "DUB - C3",
+    "slot": "D",
+    "name": "DUB - D1",
+    "corvCapacity": 0,
+    "fighterCapacity": 0,
+    "hangarSize": null,
+    "effect": null
+  },
+  {
+    "shipKey": "Dubhe:A",
+    "slot": "D",
+    "name": "DUB - D2",
     "corvCapacity": 0,
     "fighterCapacity": 0,
     "hangarSize": null,

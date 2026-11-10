@@ -100,9 +100,9 @@
     "fighterSlots": 6
   },
   {
-    "key": "Mergrez - Default",
-    "name": "Mergrez - Default",
-    "baseShipKey": "Mergrez:A",
+    "key": "Megrez - Default",
+    "name": "Megrez - Default",
+    "baseShipKey": "Megrez:A",
     "slots": {
       "M": "MER - M1",
       "A": "MER - A1"
