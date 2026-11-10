@@ -26,6 +26,19 @@
     "notes": null
   },
   {
+    "key": "XenoStinger:C",
+    "name": "Xeno Tactical",
+    "base": "XenoStinger",
+    "variant": "C",
+    "class": "Frigate",
+    "cpCost": 6,
+    "defaultRow": "Back",
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": null,
+    "notes": "Landing"
+  },
+  {
     "key": "Ruby:A",
     "name": "Ruby Railgun",
     "base": "Ruby",
@@ -70,7 +83,7 @@
     "base": "Carillion",
     "variant": "A",
     "class": "Frigate",
-    "cpCost": 5,
+    "cpCost": 4,
     "defaultRow": "Front",
     "fixedCorvSlots": null,
     "fixedFighterSlots": null,
@@ -533,6 +546,19 @@
     "notes": "Armoured"
   },
   {
+    "key": "Aldabra:C",
+    "name": "Aldabra",
+    "base": "Aldabra",
+    "variant": "C",
+    "class": "Destroyer",
+    "cpCost": 8,
+    "defaultRow": "Front",
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": null,
+    "notes": "Anti-air"
+  },
+  {
     "key": "Ceres:A",
     "name": "Ceres (Air)",
     "base": "Ceres",
@@ -817,6 +843,58 @@
     "fixedFighterSlots": null,
     "size": null,
     "notes": null
+  },
+  {
+    "key": "Vanguard:A",
+    "name": "Vanguard",
+    "base": "Vanguard",
+    "variant": "A",
+    "class": "Destroyer",
+    "cpCost": 9,
+    "defaultRow": "Front",
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": null,
+    "notes": "Landing"
+  },
+  {
+    "key": "Vanguard:B",
+    "name": "Vanguard",
+    "base": "Vanguard",
+    "variant": "B",
+    "class": "Destroyer",
+    "cpCost": 10,
+    "defaultRow": "Front",
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": null,
+    "notes": "Carrier"
+  },
+  {
+    "key": "Helios:A",
+    "name": "Helios",
+    "base": "Helios",
+    "variant": "A",
+    "class": "Destroyer",
+    "cpCost": 6,
+    "defaultRow": "Front",
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": null,
+    "notes": "General"
+  },
+  {
+    "key": "Helios:B",
+    "name": "Helios",
+    "base": "Helios",
+    "variant": "B",
+    "class": "Destroyer",
+    "cpCost": 6,
+    "defaultRow": "Front",
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": null,
+    "notes": "Tactical"
   },
   {
     "key": "Chimera:A",
@@ -1391,9 +1469,9 @@
     "notes": null
   },
   {
-    "key": "Mergrez:A",
-    "name": "Mergrez",
-    "base": "Mergrez",
+    "key": "Megrez:A",
+    "name": "Megrez",
+    "base": "Megrez",
     "variant": "A",
     "class": "Battlecruiser",
     "cpCost": 35,
@@ -1729,6 +1807,19 @@
     "notes": null
   },
   {
+    "key": "Merak:B",
+    "name": "Merak",
+    "base": "Merak",
+    "variant": "B",
+    "class": "Fighter",
+    "cpCost": 1,
+    "defaultRow": null,
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": "Medium",
+    "notes": "Anti-ship"
+  },
+  {
     "key": "A101 the Rational:A",
     "name": "A101 the Rational",
     "base": "A101 the Rational",
@@ -1780,7 +1871,7 @@
     "size": "Medium",
     "notes": null
   },
-    {
+  {
     "key": "Thunderbolt V022:A",
     "name": "Thunderbolt V022 Anti-Air",
     "base": "Thunderbolt V022",
@@ -2013,6 +2104,19 @@
     "fixedFighterSlots": null,
     "size": null,
     "notes": null
+  },
+  {
+    "key": "Wildfire:B",
+    "name": "Wildfire",
+    "base": "Wildfire",
+    "variant": "B",
+    "class": "Corvette",
+    "cpCost": 1,
+    "defaultRow": null,
+    "fixedCorvSlots": null,
+    "fixedFighterSlots": null,
+    "size": null,
+    "notes": "Anti-air"
   },
   {
     "key": "Tempel:A",
