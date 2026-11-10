@@ -1,9 +1,15 @@
-import type { Ship, Module, Template } from './types'
+import type { ReferenceData, Ship, Module, Template } from './types'
+import {
+  CURRENT_REFERENCE_VERSION,
+  migrateReferenceData,
+  type ReferenceLists,
+} from './reference-migration'
 
 const SHIP_KEY = 'il-fleet-planner:ships'
 const MODULE_KEY = 'il-fleet-planner:modules'
 const TPL_KEY = 'il-fleet-planner:templates'
 const LEGACY_TPL_KEY = 'il-fleet-planner:custom-templates'
+const VERSION_KEY = 'il-fleet-planner:reference-version'
 
 function read<T>(key: string): T[] | null {
   const raw = localStorage.getItem(key)
@@ -29,13 +35,7 @@ function loadCollection<T>(key: string, seed: T[]): T[] {
   return seed
 }
 
-export const loadShips = (seed: Ship[]) => loadCollection(SHIP_KEY, seed)
-export const saveShips = (ships: Ship[]) => write(SHIP_KEY, ships)
-
-export const loadModules = (seed: Module[]) => loadCollection(MODULE_KEY, seed)
-export const saveModules = (modules: Module[]) => write(MODULE_KEY, modules)
-
-export function loadTemplates(seed: Template[]): Template[] {
+function loadTemplates(seed: Template[]): Template[] {
   const existing = read<Template>(TPL_KEY)
   if (existing) return existing
   const legacy = read<Template>(LEGACY_TPL_KEY) ?? []
@@ -46,5 +46,34 @@ export function loadTemplates(seed: Template[]): Template[] {
   write(TPL_KEY, list)
   return list
 }
+
+/**
+ * Load the stored reference data, merging one-time bundled refresh migrations.
+ * User edits and hidden flags survive; see migrateReferenceData.
+ */
+export function loadReference(seed: ReferenceData): ReferenceLists {
+  const stored: ReferenceLists = {
+    ships: loadCollection(SHIP_KEY, seed.ships),
+    modules: loadCollection(MODULE_KEY, seed.modules),
+    templates: loadTemplates(seed.templates),
+  }
+  const version = Number(localStorage.getItem(VERSION_KEY) ?? '1') || 1
+  if (version >= CURRENT_REFERENCE_VERSION) return stored
+
+  const migrated = migrateReferenceData(stored, {
+    ships: seed.ships,
+    modules: seed.modules,
+    templates: seed.templates,
+  })
+  write(SHIP_KEY, migrated.ships)
+  write(MODULE_KEY, migrated.modules)
+  write(TPL_KEY, migrated.templates)
+  localStorage.setItem(VERSION_KEY, String(CURRENT_REFERENCE_VERSION))
+  return migrated
+}
+
+export const saveShips = (ships: Ship[]) => write(SHIP_KEY, ships)
+
+export const saveModules = (modules: Module[]) => write(MODULE_KEY, modules)
 
 export const saveTemplates = (templates: Template[]) => write(TPL_KEY, templates)

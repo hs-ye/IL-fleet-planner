@@ -30,11 +30,24 @@ export function deserializePlan(s: string): FleetPlan {
   return normalizePlan(JSON.parse(new TextDecoder().decode(bytes)) as FleetPlan)
 }
 
+const RENAMED_KEYS: Record<string, string> = {
+  'Mergrez:A': 'Megrez:A',
+  'Mergrez - Default': 'Megrez - Default',
+}
+
+const renameKey = (key: string): string => RENAMED_KEYS[key] ?? key
+
 function normalizePlan(p: FleetPlan): FleetPlan {
   if (p.fleetMaxCp === undefined) {
     // Legacy plans stored separate main/rf budgets; the fleet CP is shared.
     p.fleetMaxCp = (p as unknown as { mainMaxCp?: number }).mainMaxCp ?? 300
   }
+  p.units = p.units.map((u) => ({ ...u, unitKey: renameKey(u.unitKey) }))
+  p.aircraft = p.aircraft.map((a) => ({
+    ...a,
+    aircraftKey: renameKey(a.aircraftKey),
+    carrierKey: renameKey(a.carrierKey),
+  }))
   return p
 }
 
